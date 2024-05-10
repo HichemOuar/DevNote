@@ -20,11 +20,11 @@ public class Session {
     private int timespent;
 
     @ManyToOne
-    @JoinColumn(name = "ID_user, nullable = false")
+    @JoinColumn(name = "ID_user", nullable = false)
     private Users user;
 
     @ManyToOne
-    @JoinColumn(name = "ID_quizz, nullable = false")
+    @JoinColumn(name = "ID_quizz", nullable = false)
     private Quizz quizz;
 
     // Constructeur, getters et setters
