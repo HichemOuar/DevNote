@@ -43,6 +43,14 @@ public class Session {
         this.ID = ID;
     }
 
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
     public LocalDateTime getLastupdated()
     {
         return lastupdated;
