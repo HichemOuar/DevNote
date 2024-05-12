@@ -31,6 +31,14 @@ public class Quizz
 
     public Quizz()
     {
+
+    }
+
+    public Quizz(String title, Access access, Users user)
+    {
+     this.title= title;
+     this.access = access;
+     this.user= user;
     }
 
     public Long getID()

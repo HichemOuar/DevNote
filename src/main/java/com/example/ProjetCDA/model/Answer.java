@@ -30,6 +30,14 @@ public class Answer
     {
     }
 
+    public Answer(Users user,Question question,String answercontent)
+    {
+        this.user = user;
+        this.question = question;
+        this.answercontent = answercontent;
+    }
+
+
     public Long getID()
     {
         return ID;

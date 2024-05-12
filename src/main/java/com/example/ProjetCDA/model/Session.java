@@ -32,6 +32,11 @@ public class Session {
     public Session()
     {
     }
+    public Session(Users user, Quizz quizz)
+    {
+        this.user = user;
+        this.quizz = quizz;
+    }
 
     public Long getID()
     {

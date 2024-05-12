@@ -23,12 +23,25 @@ public class Comment
     @JoinColumn(name = "ID_user", nullable = false)
     private Users user;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_question", nullable = false)
+    private Question question;
+
 
     // Constructeur, getters et setters
 
     public Comment()
     {
     }
+
+    public Comment(String content, LocalDateTime dateofpost, Users user, Question question)
+    {
+        this.content = content;
+        this.dateofpost = dateofpost;
+        this.user = user;
+        this.question = question;
+    }
+
 
     public Long getID()
     {
@@ -78,6 +91,14 @@ public class Comment
     public void setUser(Users user)
     {
         this.user = user;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
 

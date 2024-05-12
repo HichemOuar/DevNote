@@ -38,6 +38,14 @@ public class Question
     {
     }
 
+    public Question(String content, String expectedanswer, Access access, Users user)
+    {
+        this.content = content;
+        this.expectedanswer = expectedanswer;
+        this.access = access;
+        this.user = user;
+    }
+
     public Long getID()
     {
         return ID;

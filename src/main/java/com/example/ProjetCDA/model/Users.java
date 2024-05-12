@@ -24,8 +24,18 @@ public class Users {
 
     // Constructeur, getters et setters
 
-    public Users()
+    public Users() // Instantiation par réflexion : Certains frameworks comme JPA, Hibernate ou Spring utilisent la réflexion pour créer des instances de classes. Ces frameworks
+                  // nécessitent souvent un constructeur vide pour pouvoir instancier la classe sans faire d'hypothèses sur les paramètres nécessaires. Si un constructeur par défaut
+                 // n'est pas explicitement défini et qu'un autre constructeur avec des arguments est présent, le compilateur Java ne générera pas automatiquement ce constructeur vide.
     {
+    }
+
+    public Users(String username, String email, String password, Role role)
+    {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public Long getId()

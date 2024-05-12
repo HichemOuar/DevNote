@@ -1,10 +1,10 @@
 package com.example.ProjetCDA;
 
 import com.example.ProjetCDA.model.*;
+import com.example.ProjetCDA.repository.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -12,47 +12,43 @@ public class MappingSessionTest
 {
 
     @Autowired
-    private TestEntityManager entityManager;
+    private SessionRepository sessionRepository;
+    @Autowired
+    private QuizzRepository quizzRepository;
+    @Autowired
+    private UsersRepository usersRepository;
 
     public Users InsertionUser()
     {
-        Users user = new Users();
-        user.setUsername("username");
-        user.setEmail("email@example.com");
-        user.setPassword("password");
-        user.setRole(Role.Apprenant);
-        entityManager.persist(user);
-        entityManager.flush();
+        Users user = new Users("utilisateur", "mail@example.com", "password", Role.Apprenant);
+        usersRepository.save(user);
         return user;
     }
     public Quizz InsertionQuizz()
     {
-        Quizz quizz = new Quizz();
-        quizz.setTitle("Quizz sur Java");
-        quizz.setAccess(Access.privé);
-        quizz.setUser(InsertionUser());
-        entityManager.persist(quizz);
-        entityManager.flush();
+        Quizz quizz= new Quizz("Quizz sur Java",Access.privé,InsertionUser());
+        quizzRepository.save(quizz);
         return quizz;
+
     }
 
     public Session InsertionSession()
     {
-        Session session = new Session();
-        session.setQuizz(InsertionQuizz());
-        session.setUser(InsertionUser());
-        entityManager.persist(session);
-        entityManager.flush();
+        Session session = new Session(InsertionUser(),InsertionQuizz());
+        sessionRepository.save(session);
         return session;
     }
 
 
     @Test
-    public void testInsertionSessionOK()
+    public void TestCRUDSessionOK()
     {
-        Session session= InsertionSession();
-        Session sessionbdd = entityManager.find(Session.class, session.getID());
-        assertThat(sessionbdd).isEqualTo(session);
+        Session session = InsertionSession();
+        sessionRepository.save(session);
+        assertThat(sessionRepository.findById(session.getID())).isPresent();
+        sessionRepository.delete(session);
+        assertThat(sessionRepository.findById(session.getID())).isNotPresent();
+
     }
 
 
