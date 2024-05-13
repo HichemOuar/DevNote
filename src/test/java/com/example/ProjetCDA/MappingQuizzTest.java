@@ -4,15 +4,18 @@ import com.example.ProjetCDA.model.*;
 import com.example.ProjetCDA.repository.QuestionRepository;
 import com.example.ProjetCDA.repository.QuizzRepository;
 import com.example.ProjetCDA.repository.UsersRepository;
+import com.example.ProjetCDA.service.QuestionService;
+import com.example.ProjetCDA.service.QuizzService;
+import com.example.ProjetCDA.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 
-@DataJpaTest
+@SpringBootTest
 public class MappingQuizzTest
 {
 
@@ -23,30 +26,23 @@ public class MappingQuizzTest
     @Autowired
     private UsersRepository usersRepository;
 
-    public Users InsertionUser()
-    {
-        Users user = new Users("utilisateur", "mail@example.com", "password", Role.Apprenant);
-        usersRepository.save(user);
-        return user;
-    }
+    @Autowired
+    private QuestionService questionService;
 
-    public Quizz InsertionQuizz()
-    {
-        Quizz quizz= new Quizz("Quizz sur Java",Access.privé,InsertionUser());
-        quizzRepository.save(quizz);
-        return quizz;
-    }
+    @Autowired
+    private QuizzService quizzService;
 
-    public Question InsertionQuestion()
-    {
-        Question question = new Question("Qu'est ce que Java?","Un langage de programmation", Access.privé,InsertionUser());
-        return question;
-    }
+    @Autowired
+    private UserService userService;
+
 
     @Test
     public void testCRUDQuizzOK()
     {
-        Quizz quizz = InsertionQuizz();
+
+        Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
+        usersRepository.save(user);
+        Quizz quizz = quizzService.createQuizzMinimum("Titre Quizz",Access.privé,user);
         quizzRepository.save(quizz);
         assertThat(quizzRepository.findById(quizz.getID())).isPresent();
         quizz.setTitle("New title quizz");
@@ -60,9 +56,12 @@ public class MappingQuizzTest
     @Transactional
     public void testRelationQuizzQuestions() {
 
-        Question question = InsertionQuestion();
+        Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
+        usersRepository.save(user);
+        Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
         questionRepository.save(question);
-        Quizz quizz = InsertionQuizz();
+        Quizz quizz = quizzService.createQuizzMinimum("Titre Quizz",Access.privé,user);
+        quizzRepository.save(quizz);
         quizz.getQuestions().add(question);
         quizzRepository.save(quizz);
         question.getQuizzs().add(quizz);

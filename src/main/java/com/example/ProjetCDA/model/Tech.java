@@ -26,6 +26,12 @@ public class Tech
     {
     }
 
+    public Tech(LabelTech label)
+    {
+        this.label = label;
+    }
+
+
     public Long getID()
     {
         return ID;

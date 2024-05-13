@@ -3,13 +3,15 @@ package com.example.ProjetCDA;
 import com.example.ProjetCDA.model.*;
 import com.example.ProjetCDA.repository.QuestionRepository;
 import com.example.ProjetCDA.repository.UsersRepository;
+import com.example.ProjetCDA.service.QuestionService;
+import com.example.ProjetCDA.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@DataJpaTest
+@SpringBootTest
 public class MappingQuestionTest
 {
 
@@ -19,22 +21,18 @@ public class MappingQuestionTest
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private UserService userService;
 
-    public Users InsertionUser()
-    {
-        Users user = new Users("utilisateur", "mail@example.com", "password", Role.Apprenant);
-        usersRepository.save(user);
-        return user;
-    }
-    public Question InsertionQuestion()
-    {
-        Question question = new Question("Qu'est ce que Java?","Un langage de programmation", Access.privé,InsertionUser());
-        return question;
-    }
+    @Autowired
+    private QuestionService questionService;
+
     @Test
     public void testCRUDQuestionOK()
     {
-        Question question= InsertionQuestion();
+        Users user = userService.createUser("utilisateur", "mail@example.com", "password", Role.Apprenant);
+        usersRepository.save(user);
+        Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
         questionRepository.save(question);
         assertThat(questionRepository.findById(question.getID())).isPresent();
         question.setContent("Nouvelle question");

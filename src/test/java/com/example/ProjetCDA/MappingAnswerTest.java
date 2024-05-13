@@ -4,14 +4,17 @@ import com.example.ProjetCDA.model.*;
 import com.example.ProjetCDA.repository.AnswerRepository;
 import com.example.ProjetCDA.repository.QuestionRepository;
 import com.example.ProjetCDA.repository.UsersRepository;
+import com.example.ProjetCDA.service.AnswerService;
+import com.example.ProjetCDA.service.QuestionService;
+import com.example.ProjetCDA.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@DataJpaTest
+@SpringBootTest
 public class MappingAnswerTest
 {
 
@@ -22,36 +25,29 @@ public class MappingAnswerTest
     @Autowired
     private AnswerRepository answerRepository;
 
-    public Users InsertionUser()
-    {
-        Users user = new Users("utilisateur", "mail@example.com", "password", Role.Apprenant);
-        usersRepository.save(user);
-        return user;
-    }
+    @Autowired
+    private AnswerService answerService;
 
-    public Question InsertionQuestion()
-    {
-        Question question = new Question("Qu'est ce que Java?","Un langage de programmation", Access.privé,InsertionUser());
-        questionRepository.save(question);
-        return question;
-    }
+    @Autowired
+    private UserService userService;
 
-    public Answer InsertionAnswer()
-    {
-        Answer answer = new Answer(InsertionUser(),InsertionQuestion(),"ma réponse");
-        answerRepository.save(answer);
-        return answer;
-    }
+    @Autowired
+    private QuestionService questionService;
+
 
     @Test
     public void testCRUDAnswerOK()
     {
-        Answer answer= InsertionAnswer();
+        Users user = userService.createUser("utilisateur", "mail@example.com", "password", Role.Apprenant);
+        usersRepository.save(user);
+        Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
+        questionRepository.save(question);
+        Answer answer = answerService.createAnswerWithContent(user,question,"Ma réponse");
         answerRepository.save(answer);
         assertThat(answerRepository.findById(answer.getID())).isPresent();
-        answer.setAnswercontent("Nouvelle réponse");
+        answer.setAnswercontent("Ma réponse 2");
         answerRepository.save(answer);
-        assertThat(answerRepository.findById(answer.getID())).isPresent().hasValueSatisfying(a -> assertThat(a.getAnswercontent()).isEqualTo("Nouvelle réponse"));
+        assertThat(answerRepository.findById(answer.getID())).isPresent().hasValueSatisfying(a -> assertThat(a.getAnswercontent()).isEqualTo("Ma réponse 2"));
         answerRepository.delete(answer);
         assertThat(answerRepository.findById(answer.getID())).isNotPresent();
     }

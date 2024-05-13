@@ -30,6 +30,13 @@ public class Answer
     {
     }
 
+    public Answer(Users user,Question question)
+    {
+        this.user = user;
+        this.question = question;
+    }
+
+
     public Answer(Users user,Question question,String answercontent)
     {
         this.user = user;

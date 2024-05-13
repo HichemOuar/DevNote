@@ -6,12 +6,15 @@ import com.example.ProjetCDA.repository.UsersRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import com.example.ProjetCDA.service.UserService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DataJpaTest // Cette annotation configure une base de données en mémoire, scanne les entités et configure Spring Data JPA
+@SpringBootTest
+// Cette annotation configure une base de données en mémoire, scanne les entités et configure Spring Data JPA
 public class MappingUsersTest
 {
 
@@ -19,12 +22,14 @@ public class MappingUsersTest
 			  // Boot utilisé pour gérer les entités dans les tests.
 
 	private UsersRepository usersRepository;
+	@Autowired
+	private UserService userService;
 
 	@Test  // Cette annotation indique que la méthode qui suit est une méthode de test. Cela signifie que lors de l'exécution des tests, cette méthode sera exécutée automatiquement
 		  // par le framework de test.
 	public void testCRUDUserOK()
 	{
-		Users user = new Users("utilisateur", "mail@example.com", "password", Role.Apprenant);
+		Users user = userService.createUser("utilisateur", "mail@example.com", "password", Role.Apprenant);
 		usersRepository.save(user);
 		assertThat(usersRepository.findById(user.getId())).isPresent();
 		user.setEmail("newmail@example.com");

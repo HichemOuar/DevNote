@@ -4,15 +4,18 @@ import com.example.ProjetCDA.model.*;
 import com.example.ProjetCDA.repository.QuestionRepository;
 import com.example.ProjetCDA.repository.TechRepository;
 import com.example.ProjetCDA.repository.UsersRepository;
+import com.example.ProjetCDA.service.QuestionService;
+import com.example.ProjetCDA.service.TechService;
+import com.example.ProjetCDA.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 
-@DataJpaTest
+@SpringBootTest
 public class MappingTechTest
 {
 
@@ -23,31 +26,20 @@ public class MappingTechTest
     @Autowired
     private QuestionRepository questionRepository;
 
+    @Autowired
+    private TechService techService;
 
-    public Users InsertionUser() // on doit créer et persister un user en base, car l'id_user est un champs obligatoire de la table question
-    {
-        Users user = new Users("utilisateur", "mail@example.com", "password", Role.Apprenant);
-        usersRepository.save(user);
-        return user;
-    }
-    public Question InsertionQuestion()
-    {
-        Question question = new Question("Qu'est ce que Java?","Un langage de programmation",Access.privé,InsertionUser());
-        questionRepository.save(question);
-        return question;
-    }
-    public Tech InsertionTech()
-    {
-        Tech tech = new Tech();
-        tech.setLabel(LabelTech.Java);
-        techRepository.save(tech);
-        return tech;
-    }
+    @Autowired
+    private QuestionService questionService;
+
+    @Autowired
+    private UserService userService;
+
     @Test
     public void TestCRUDTechOK()
     {
-        Tech tech=InsertionTech();
-        assertThat(techRepository.findById(tech.getID())).isPresent();
+        Tech tech = techService.createTech(LabelTech.Javascript);
+        techRepository.save(tech);
         tech.setLabel(LabelTech.CSS);
         techRepository.save(tech);
         assertThat(techRepository.findById(tech.getID())).isPresent().hasValueSatisfying(t -> assertThat(t.getLabel()).isEqualTo(LabelTech.CSS));
@@ -59,13 +51,16 @@ public class MappingTechTest
     @Test
     @Transactional  // Assurer que les modifications de collection sont persistées.
     public void testRelationTechQuestions() {
-        Tech tech = InsertionTech();
+        Tech tech = techService.createTech(LabelTech.Javascript);
         techRepository.save(tech);
-        Question question = InsertionQuestion();
+        Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
+        usersRepository.save(user);
+        Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
+        questionRepository.save(question);
         question.getTechs().add(tech);
         questionRepository.save(question);
         tech.getQuestions().add(question);
-        techRepository.save(tech);  // Sauvegarder les modifications des collections.
+        techRepository.save(tech);
         // Utiliser les repositories pour tester la présence des relations.
         assertThat(techRepository.findById(tech.getID()).get().getQuestions()).contains(question);
         assertThat(questionRepository.findById(question.getID()).get().getTechs()).contains(tech);

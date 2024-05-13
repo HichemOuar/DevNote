@@ -2,12 +2,15 @@ package com.example.ProjetCDA;
 
 import com.example.ProjetCDA.model.*;
 import com.example.ProjetCDA.repository.*;
+import com.example.ProjetCDA.service.QuizzService;
+import com.example.ProjetCDA.service.SessionService;
+import com.example.ProjetCDA.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@SpringBootTest
 public class MappingSessionTest
 {
 
@@ -18,32 +21,21 @@ public class MappingSessionTest
     @Autowired
     private UsersRepository usersRepository;
 
-    public Users InsertionUser()
-    {
-        Users user = new Users("utilisateur", "mail@example.com", "password", Role.Apprenant);
-        usersRepository.save(user);
-        return user;
-    }
-    public Quizz InsertionQuizz()
-    {
-        Quizz quizz= new Quizz("Quizz sur Java",Access.privé,InsertionUser());
-        quizzRepository.save(quizz);
-        return quizz;
-
-    }
-
-    public Session InsertionSession()
-    {
-        Session session = new Session(InsertionUser(),InsertionQuizz());
-        sessionRepository.save(session);
-        return session;
-    }
-
+    @Autowired
+    private QuizzService quizzService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private SessionService sessionService;
 
     @Test
     public void TestCRUDSessionOK()
     {
-        Session session = InsertionSession();
+        Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
+        usersRepository.save(user);
+        Quizz quizz = quizzService.createQuizzMinimum("Titre Quizz",Access.privé,user);
+        quizzRepository.save(quizz);
+        Session session = sessionService.createSessionMinimum(user,quizz);
         sessionRepository.save(session);
         assertThat(sessionRepository.findById(session.getID())).isPresent();
         sessionRepository.delete(session);
