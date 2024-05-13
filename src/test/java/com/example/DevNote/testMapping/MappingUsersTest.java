@@ -12,13 +12,14 @@ import com.example.DevNote.service.UserService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-// Cette annotation configure une base de données en mémoire, scanne les entités et configure Spring Data JPA
+@SpringBootTest // Cette annotation prépare l'environnement de test de Spring Boot, configurant automatiquement les tests intégrés avec le contexte de l'application Spring. Elle est
+			   // essentielle pour tester des composants Spring, car elle charge la configuration complète et simule un environnement d'application.
+
 public class MappingUsersTest
 {
 
-	@Autowired // permet à Spring d'injecter automatiquement les dépendances nécessaires. Ici, il est utilisé pour injecter une instance de TestEntityManager, un composant de Spring
-			  // Boot utilisé pour gérer les entités dans les tests.
+	@Autowired // Spring utilise cette annotation pour injecter automatiquement les dépendances nécessaires. Ici, UsersRepository et UserService sont injectés, permettant leur
+			  // utilisation dans les méthodes de test.
 
 	private UsersRepository usersRepository;
 	@Autowired
@@ -53,7 +54,8 @@ public class MappingUsersTest
 		user.setEmail("email@example.com");
 		user.setRole(Role.Apprenant);
 		user.setPassword("password");
-		assertThrows(DataIntegrityViolationException.class, () -> usersRepository.saveAndFlush(user));
+		assertThrows(DataIntegrityViolationException.class, () -> usersRepository.saveAndFlush(user)); // assertThrows vérifie qu'une exception spécifique est levée lors de l'exécution
+																								// du bloc de code donné, ce qui est attendu quand une contrainte d'intégrité est violée.
 	}
 
 	@Test
