@@ -32,11 +32,8 @@ public class MappingSessionTest
     public void TestCRUDSessionOK()
     {
         Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
-        usersRepository.save(user);
         Quizz quizz = quizzService.createQuizzMinimum("Titre Quizz",Access.privé,user);
-        quizzRepository.save(quizz);
         Session session = sessionService.createSessionMinimum(user,quizz);
-        sessionRepository.save(session);
         assertThat(sessionRepository.findById(session.getID())).isPresent();
         sessionRepository.delete(session);
         assertThat(sessionRepository.findById(session.getID())).isNotPresent();

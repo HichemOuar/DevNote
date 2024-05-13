@@ -39,11 +39,8 @@ public class MappingAnswerTest
     public void testCRUDAnswerOK()
     {
         Users user = userService.createUser("utilisateur", "mail@example.com", "password", Role.Apprenant);
-        usersRepository.save(user);
         Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
-        questionRepository.save(question);
         Answer answer = answerService.createAnswerWithContent(user,question,"Ma réponse");
-        answerRepository.save(answer);
         assertThat(answerRepository.findById(answer.getID())).isPresent();
         answer.setAnswerContent("Ma réponse 2");
         answerRepository.save(answer);

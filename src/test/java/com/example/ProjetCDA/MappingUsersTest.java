@@ -5,7 +5,6 @@ import com.example.ProjetCDA.model.Role;
 import com.example.ProjetCDA.repository.UsersRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import com.example.ProjetCDA.service.UserService;
@@ -30,7 +29,6 @@ public class MappingUsersTest
 	public void testCRUDUserOK()
 	{
 		Users user = userService.createUser("utilisateur", "mail@example.com", "password", Role.Apprenant);
-		usersRepository.save(user);
 		assertThat(usersRepository.findById(user.getId())).isPresent();
 		user.setEmail("newmail@example.com");
 		usersRepository.save(user);

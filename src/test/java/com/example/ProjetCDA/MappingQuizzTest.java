@@ -41,9 +41,7 @@ public class MappingQuizzTest
     {
 
         Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
-        usersRepository.save(user);
         Quizz quizz = quizzService.createQuizzMinimum("Titre Quizz",Access.privé,user);
-        quizzRepository.save(quizz);
         assertThat(quizzRepository.findById(quizz.getID())).isPresent();
         quizz.setTitle("New title quizz");
         quizzRepository.save(quizz);
@@ -57,11 +55,8 @@ public class MappingQuizzTest
     public void testRelationQuizzQuestions() {
 
         Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
-        usersRepository.save(user);
         Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
-        questionRepository.save(question);
         Quizz quizz = quizzService.createQuizzMinimum("Titre Quizz",Access.privé,user);
-        quizzRepository.save(quizz);
         quizz.getQuestions().add(question);
         quizzRepository.save(quizz);
         question.getQuizzs().add(quizz);

@@ -38,9 +38,7 @@ public class MappingCommentTest
     public void testCRUDCommentOK()
     {
         Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
-        usersRepository.save(user);
         Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
-        questionRepository.save(question);
         Comment comment= commentService.createCommentMinimum("Mon commentaire",LocalDateTime.of(2024, 5, 10, 15, 30),user,question);
         commentRepository.save(comment);
         assertThat(commentRepository.findById(comment.getID())).isPresent();

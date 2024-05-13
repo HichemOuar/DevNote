@@ -39,7 +39,6 @@ public class MappingTechTest
     public void TestCRUDTechOK()
     {
         Tech tech = techService.createTech(LabelTech.Javascript);
-        techRepository.save(tech);
         tech.setLabel(LabelTech.CSS);
         techRepository.save(tech);
         assertThat(techRepository.findById(tech.getID())).isPresent().hasValueSatisfying(t -> assertThat(t.getLabel()).isEqualTo(LabelTech.CSS));
@@ -52,11 +51,8 @@ public class MappingTechTest
     @Transactional  // Assurer que les modifications de collection sont persistées.
     public void testRelationTechQuestions() {
         Tech tech = techService.createTech(LabelTech.Javascript);
-        techRepository.save(tech);
         Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
-        usersRepository.save(user);
         Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
-        questionRepository.save(question);
         question.getTechs().add(tech);
         questionRepository.save(question);
         tech.getQuestions().add(question);
