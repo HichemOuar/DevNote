@@ -60,7 +60,7 @@ public class Answer
         return answercontent;
     }
 
-    public void setAnswercontent(String answercontent)
+    public void setAnswerContent(String answercontent)
     {
         this.answercontent = answercontent;
     }

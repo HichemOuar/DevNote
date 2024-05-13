@@ -45,7 +45,7 @@ public class MappingAnswerTest
         Answer answer = answerService.createAnswerWithContent(user,question,"Ma réponse");
         answerRepository.save(answer);
         assertThat(answerRepository.findById(answer.getID())).isPresent();
-        answer.setAnswercontent("Ma réponse 2");
+        answer.setAnswerContent("Ma réponse 2");
         answerRepository.save(answer);
         assertThat(answerRepository.findById(answer.getID())).isPresent().hasValueSatisfying(a -> assertThat(a.getAnswercontent()).isEqualTo("Ma réponse 2"));
         answerRepository.delete(answer);

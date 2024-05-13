@@ -2,15 +2,18 @@ package com.example.ProjetCDA.model;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "users")
+@Entity // Cette annotation indique que cette classe est une entité JPA
+@Table(name = "users") // signifie que cette classe est mappée à la table Users en base de données
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Cette annotation est utilisée pour spécifier la stratégie de génération de la valeur des clés primaires. Elle automatise la
+                                                       // création de valeurs uniques pour chaque entitées. IDENTITY est une des stratégies de génération qui indique que la clé primaire
+                                                      //  sera générée par la base de données,
     @Column(name = "ID_USER")
     private Long ID;
 
-    @Column(name = "Username", nullable = false)
+    @Column(name = "Username", nullable = false) // Ces champs sont mappés aux colonnes correspondantes en base de données.IL EST NECESSAIRE d'AJOUTER nullable=false si le champs ne
+                                                //  peut pas être nul en bdd, sauf pour l'ID car c'est autogénéré par Spring JPA avec l'annotation GeneratedValue
     private String username;
 
     @Column(name = "Email", nullable = false)
@@ -18,7 +21,8 @@ public class Users {
 
     @Column(name = "Password", nullable = false)
     private String password;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) // Role est une énumération: On la définit dans le fichier model> Role (Si l'énumération a le potentiel d'être utilisée par plusieurs classes ou pour
+                                //  représenter une logique métier au-delà d'une seule entité, il est préférable de la placer dans son propre fichier.
     @Column(name = "Role", nullable = false)
     private Role role;
 
