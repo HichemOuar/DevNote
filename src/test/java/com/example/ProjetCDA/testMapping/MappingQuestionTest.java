@@ -1,32 +1,25 @@
-package com.example.ProjetCDA;
+package com.example.ProjetCDA.testMapping;
 
 import com.example.ProjetCDA.model.*;
-import com.example.ProjetCDA.repository.AnswerRepository;
 import com.example.ProjetCDA.repository.QuestionRepository;
 import com.example.ProjetCDA.repository.UsersRepository;
-import com.example.ProjetCDA.service.AnswerService;
 import com.example.ProjetCDA.service.QuestionService;
 import com.example.ProjetCDA.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
-public class MappingAnswerTest
+public class MappingQuestionTest
 {
 
     @Autowired
     private QuestionRepository questionRepository;
-    @Autowired
-    private UsersRepository usersRepository;
-    @Autowired
-    private AnswerRepository answerRepository;
 
     @Autowired
-    private AnswerService answerService;
+    private UsersRepository usersRepository;
 
     @Autowired
     private UserService userService;
@@ -34,19 +27,17 @@ public class MappingAnswerTest
     @Autowired
     private QuestionService questionService;
 
-
     @Test
-    public void testCRUDAnswerOK()
+    public void testCRUDQuestionOK()
     {
         Users user = userService.createUser("utilisateur", "mail@example.com", "password", Role.Apprenant);
         Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
-        Answer answer = answerService.createAnswerWithContent(user,question,"Ma réponse");
-        assertThat(answerRepository.findById(answer.getID())).isPresent();
-        answer.setAnswerContent("Ma réponse 2");
-        answerRepository.save(answer);
-        assertThat(answerRepository.findById(answer.getID())).isPresent().hasValueSatisfying(a -> assertThat(a.getAnswercontent()).isEqualTo("Ma réponse 2"));
-        answerRepository.delete(answer);
-        assertThat(answerRepository.findById(answer.getID())).isNotPresent();
+        assertThat(questionRepository.findById(question.getID())).isPresent();
+        question.setContent("Nouvelle question");
+        questionRepository.save(question);
+        assertThat(questionRepository.findById(question.getID())).isPresent().hasValueSatisfying(q -> assertThat(q.getContent()).isEqualTo("Nouvelle question"));
+        questionRepository.delete(question);
+        assertThat(questionRepository.findById(question.getID())).isNotPresent();
     }
 
 

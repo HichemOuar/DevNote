@@ -10,7 +10,7 @@ public class Answer
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_answer")
     private Long ID;
-    @Column(name = "answer_content")
+    @Column(name = "answer_content") // On utilise le type string pour les types 'text' de SQL
     private String answercontent;
     @Column(name = "answer_value")
     private boolean answervalue;

@@ -16,7 +16,9 @@ public class Question
     private String content;
     @Column(name = "expected_answer", nullable = false)
     private String expectedanswer;
-    @Column(name = "visual_infos")
+    @Column(name = "visual_infos") // Pour les champs de type mediumblob dans une base de données MySQL qui sont utilisés pour stocker de grands objets binaires (comme des images, des
+                                  //  fichiers audio, ou d'autres données binaires), le type Java approprié est byte[]. Ce type permet de stocker des données binaires sous forme de
+                                 //   tableau d'octets en Java, ce qui correspond bien à la manière dont les données mediumblob sont gérées dans une base de données.
     private byte[] visualinfos;
     @Enumerated(EnumType.STRING)
     @Column(name = "access", nullable = false)
@@ -26,11 +28,18 @@ public class Question
     @ManyToOne
     @JoinColumn(name = "ID_user", nullable = false)
     private Users user;
-    @ManyToMany(mappedBy = "questions")
+    @ManyToMany(mappedBy = "questions") // mappedBy indique que la relation est gérée de l'autre côté de la relation n-n par la collection questions ( donc dans l'entité Quizz.java)
     private Set<Quizz> quizzs = new HashSet<>();
     @ManyToMany
-    @JoinTable(name = "techs_question", joinColumns = @JoinColumn(name = "ID_question"), inverseJoinColumns = @JoinColumn(name = "ID_tech"))
-    private Set<Tech> techs = new HashSet<>();
+    @JoinTable( // Cette annotation est utilisée pour spécifier la table de jointure utilisée pour la relation many-to-many
+            name = "techs_question", // Le nom de la table de jointure dans la base de données.
+            joinColumns = @JoinColumn(name = "ID_question"), // Spécifie la colonne de jointure dans la table de jointure pour l'entité propriétaire de la relation
+            inverseJoinColumns = @JoinColumn(name = "ID_tech")) // Spécifie la colonne de jointure dans la table de jointure pour l'entité non- propriétaire de la relation (ici Quizz)
+
+    private Set<Tech> techs = new HashSet<>();  //c'est une COLLECTION DE techs. elle permet de gérer facilement les technos associées à chaque question. Le choix de Set plutôt que
+                                               // List est généralement pour éviter les doublons, garantissant que la même tech ne peut pas être associée plusieurs fois à la même
+                                              //  question.HashSet est une implémentation de l'interface Set qui utilise une table de hachage pour stocker les éléments. Elle ne permet
+                                             //   pas de doublons, ce qui est idéal pour les relations many-to-many
 
     // Constructeur, getters et setters
 

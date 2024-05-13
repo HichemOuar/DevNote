@@ -10,7 +10,7 @@ public class Session {
     @Column(name = "ID_session")
     private Long ID;
 
-    @Column(name = "last_updated")
+    @Column(name = "last_updated") // dans les versions récentes de java, on utilise le type LocalDateTime pour représenter une date
     private LocalDateTime lastupdated;
 
     @Column(name = "score")
@@ -19,7 +19,10 @@ public class Session {
     @Column(name = "time_spent")
     private int timespent;
 
-    @ManyToOne
+    @ManyToOne //Pour représenter une relation avec une clé étrangère, on peut utiliser les annotations @ManyToOne ou @OneToOne. Cette annotation est utilisée quand plusieurs instances
+              // de l'entité source (ici, Session) peuvent être associées à une seule instance de l'entité cible (ici, Users). C'est ce qu'on appelle une relation "many-to-one".
+             //  Si par exemple un utilisateur peut avoir plusieurs sessions, chaque entité Session aura une clé étrangère pointant vers un utilisateur spécifique.
+
     @JoinColumn(name = "ID_user", nullable = false)
     private Users user;
 

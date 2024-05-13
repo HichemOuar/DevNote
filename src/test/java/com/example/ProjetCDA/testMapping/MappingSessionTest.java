@@ -1,4 +1,4 @@
-package com.example.ProjetCDA;
+package com.example.ProjetCDA.testMapping;
 
 import com.example.ProjetCDA.model.*;
 import com.example.ProjetCDA.repository.*;

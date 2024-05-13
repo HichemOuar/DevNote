@@ -23,8 +23,15 @@ public class Quizz
     @JoinColumn(name = "ID_user", nullable = false)
     private Users user;
     @ManyToMany
-    @JoinTable(name = "question_quizz", joinColumns = @JoinColumn(name = "ID_quizz"), inverseJoinColumns = @JoinColumn(name = "ID_question"))
-    private Set<Question> questions = new HashSet<>();
+    @JoinTable( // Cette annotation est utilisée pour spécifier la table de jointure utilisée pour la relation many-to-many
+            name = "question_quizz", // Le nom de la table de jointure dans la base de données.
+            joinColumns = @JoinColumn(name = "ID_quizz"), // Spécifie la colonne de jointure dans la table de jointure pour l'entité propriétaire de la relation (ici Question)
+            inverseJoinColumns = @JoinColumn(name = "ID_question")) // Spécifie la colonne de jointure dans la table de jointure pour l'entité non- propriétaire de la relation
+
+    private Set<Question> questions = new HashSet<>(); //c'est une COLLECTION DE questions. elle permet de gérer facilement les questions associées à chaque quizz Le choix de Set
+                                                      // plutôt que List est généralement pour éviter les doublons, garantissant que la même question ne peut pas être associée
+                                                     //  plusieurs fois au même quiz.HashSet est une implémentation de l'interface Set qui utilise une table de hachage pour stocker les
+                                                    //   éléments. Elle ne permet pas de doublons, ce qui est idéal pour les relations many-to-many
 
 
     // Constructeur, getters et setters
