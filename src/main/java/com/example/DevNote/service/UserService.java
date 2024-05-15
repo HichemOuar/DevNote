@@ -4,6 +4,7 @@ import com.example.DevNote.model.Role;
 import com.example.DevNote.model.Users;
 import com.example.DevNote.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,9 @@ public class UserService {
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     public Users createUserTestMapping(String username, String email, String password, Role role) {
         Users user = new Users(username, email, password, role);
@@ -32,7 +36,8 @@ public class UserService {
         }
 
         Role defaultrole = Role.Apprenant;
-        Users user = new Users(dto.getUsername(), dto.getEmail(), dto.getPassword(), defaultrole);
+        String hashedPassword = passwordEncoder.encode(dto.getPassword());
+        Users user = new Users(dto.getUsername(), dto.getEmail(), hashedPassword, defaultrole);
         usersRepository.save(user);
         return user;
     }
