@@ -18,7 +18,7 @@ public class UserService {
         return user;
     }
 
-    public Users createUserTestMapping(UsersRegistrationDTO dto) {
+    public Users createUser(UsersRegistrationDTO dto) {
         Role defaultrole = Role.Apprenant;
         Users user = new Users(dto.getUsername(), dto.getEmail(), dto.getPassword(), defaultrole);
         usersRepository.save(user);

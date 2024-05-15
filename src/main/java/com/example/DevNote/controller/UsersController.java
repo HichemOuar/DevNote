@@ -38,7 +38,7 @@ public class UsersController {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         // Si aucune erreur n'est détectée, passer au service pour créer l'utilisateur
-        userService.createUserTestMapping(registereduserdto);
+        userService.createUser(registereduserdto);
         return ResponseEntity.ok("Création du compte utilisateur réussie");
     }
 }
