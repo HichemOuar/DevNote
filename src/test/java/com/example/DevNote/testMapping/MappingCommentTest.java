@@ -37,7 +37,7 @@ public class MappingCommentTest
     @Test
     public void testCRUDCommentOK()
     {
-        Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
+        Users user = userService.createUserTestMapping("testusername","username@gmail.com", "password",Role.Apprenant);
         Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
         Comment comment= commentService.createCommentMinimum("Mon commentaire",LocalDateTime.of(2024, 5, 10, 15, 30),user,question);
         commentRepository.save(comment);

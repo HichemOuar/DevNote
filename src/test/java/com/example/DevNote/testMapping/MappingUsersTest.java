@@ -29,7 +29,7 @@ public class MappingUsersTest
 		  // par le framework de test.
 	public void testCRUDUserOK()
 	{
-		Users user = userService.createUser("utilisateur", "mail@example.com", "password", Role.Apprenant);
+		Users user = userService.createUserTestMapping("utilisateur", "mail@example.com", "password", Role.Apprenant);
 		assertThat(usersRepository.findById(user.getId())).isPresent();
 		user.setEmail("newmail@example.com");
 		usersRepository.save(user);

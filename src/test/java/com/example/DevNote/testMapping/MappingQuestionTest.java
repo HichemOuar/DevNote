@@ -30,7 +30,7 @@ public class MappingQuestionTest
     @Test
     public void testCRUDQuestionOK()
     {
-        Users user = userService.createUser("utilisateur", "mail@example.com", "password", Role.Apprenant);
+        Users user = userService.createUserTestMapping("utilisateur", "mail@example.com", "password", Role.Apprenant);
         Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
         assertThat(questionRepository.findById(question.getID())).isPresent();
         question.setContent("Nouvelle question");

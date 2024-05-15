@@ -40,7 +40,7 @@ public class MappingQuizzTest
     public void testCRUDQuizzOK()
     {
 
-        Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
+        Users user = userService.createUserTestMapping("testusername","username@gmail.com", "password",Role.Apprenant);
         Quizz quizz = quizzService.createQuizzMinimum("Titre Quizz",Access.privé,user);
         assertThat(quizzRepository.findById(quizz.getID())).isPresent();
         quizz.setTitle("New title quizz");
@@ -54,7 +54,7 @@ public class MappingQuizzTest
     @Transactional
     public void testRelationQuizzQuestions() {
 
-        Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
+        Users user = userService.createUserTestMapping("testusername","username@gmail.com", "password",Role.Apprenant);
         Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
         Quizz quizz = quizzService.createQuizzMinimum("Titre Quizz",Access.privé,user);
         quizz.getQuestions().add(question);

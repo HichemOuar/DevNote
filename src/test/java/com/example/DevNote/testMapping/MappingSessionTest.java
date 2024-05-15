@@ -31,7 +31,7 @@ public class MappingSessionTest
     @Test
     public void TestCRUDSessionOK()
     {
-        Users user = userService.createUser("testusername","username@gmail.com", "password",Role.Apprenant);
+        Users user = userService.createUserTestMapping("testusername","username@gmail.com", "password",Role.Apprenant);
         Quizz quizz = quizzService.createQuizzMinimum("Titre Quizz",Access.privé,user);
         Session session = sessionService.createSessionMinimum(user,quizz);
         assertThat(sessionRepository.findById(session.getID())).isPresent();
