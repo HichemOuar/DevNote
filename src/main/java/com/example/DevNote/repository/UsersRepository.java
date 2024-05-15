@@ -8,4 +8,9 @@ public interface UsersRepository extends JpaRepository<Users, Long> {  //UsersRe
                                                                      // automatiquement de plusieurs méthodes utiles pour la manipulation des données (comme save(), delete(), findById(),
                                                                     // findAll(), etc.).
 
+    // Méthode pour vérifier l'existence d'un utilisateur par son username
+    boolean existsByUsername(String username);
+
+    // Méthode pour vérifier l'existence d'un utilisateur par son email
+    boolean existsByEmail(String email);
 }

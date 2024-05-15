@@ -32,13 +32,25 @@ public class UsersController {
     // contrôleur registerUser à comprendre que les données de ce formulaire ou de cette application doivent être prises et transformées en un objet Java. (Prends les données envoyées
     // avec cette requête HTTP et utilise-les pour remplir l'objet spécifié ici)
     // @Validated active la validation des données selon les annotations de validation dans UsersRegistrationDTO.
+    // Si il y a des erreurs, elles seront contenues dans la variable bindingResult
+
     {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) // On vérifie ici s'il y a des erreurs liés aux contraintes de validation du DTO
+        {
             // Si des erreurs de validation sont détectées, retourner une réponse avec ces erreurs
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
-        // Si aucune erreur n'est détectée, passer au service pour créer l'utilisateur
-        userService.createUser(registereduserdto);
-        return ResponseEntity.ok("Création du compte utilisateur réussie");
+
+        try  // On ajoute un bloc try catch vérifier s'il n'y a pas d'autre type d'erreurs: Par exemple, pour la disponibilité de username/mail, ça ne se fait pas au niveau du DTO!
+        {
+            userService.createUser(registereduserdto);
+            return ResponseEntity.ok("Création du compte utilisateur réussie"); // Si aucune erreur n'est détectée, passer au service pour créer l'utilisateur
+        }
+        catch (Exception e) // Exception e : Exception est la classe de base pour toutes les exceptions contrôlées en Java. Capturer Exception signifie qu'on attrape toutes les
+        // exceptions qui descendent de cette classe.
+        {
+            return ResponseEntity.badRequest().body(e.getMessage()); // e.getMessage() renvoie le message d'erreur associé à l'exception capturée. Ce message est généralement fourni
+                                                                    // par le constructeur de l'exception ou par une surcharge de cette exception
+        }
     }
 }
