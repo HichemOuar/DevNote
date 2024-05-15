@@ -1,4 +1,4 @@
-package com.example.DevNote.testMapping;
+package com.example.DevNote.TestMapping;
 
 import com.example.DevNote.model.Users;
 import com.example.DevNote.model.Role;
