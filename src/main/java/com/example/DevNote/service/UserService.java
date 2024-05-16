@@ -24,7 +24,8 @@ public class UserService {
     }
 
     @Transactional
-    public Users createUser(UsersRegistrationDTO dto) throws Exception
+    public Users createUser(UsersRegistrationDTO dto) throws Exception  // NB: très important : Quand tu définis une exception dans une méthode, quand tu appelles cette méthode,
+                                                                        // il faut utiliser un try catch ou un autre moyen de gérer les exceptions
     {
         if (usersRepository.existsByUsername(dto.getUsername()))
         {
