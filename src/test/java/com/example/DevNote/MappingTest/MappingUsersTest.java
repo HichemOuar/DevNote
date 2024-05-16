@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest // Cette annotation prépare l'environnement de test de Spring Boot, configurant automatiquement les tests intégrés avec le contexte de l'application Spring. Elle est
 			   // essentielle pour tester des composants Spring, car elle charge la configuration complète et simule un environnement d'application.
+			  // En gros: c'est un test d'INTEGRATION
 
 public class MappingUsersTest
 {
