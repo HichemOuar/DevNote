@@ -1,4 +1,4 @@
-package com.example.DevNote.TestMapping;
+package com.example.DevNote.MappingTest;
 
 import com.example.DevNote.model.*;
 import com.example.DevNote.repository.*;
