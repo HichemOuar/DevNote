@@ -17,7 +17,6 @@ public class UsersRegistrationDTO {
     private String email;
     @NotBlank(message = "Veuillez renseigner un mot de passe")
     @Size(min = 8, max = 25, message = "Veuillez renseigner un mot de passe")
-
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\\W]).*$", message = "Le mot de passe doit contenir des lettres, des chiffres et des caractères spéciaux")
     private String password;
     @NotBlank(message = "Le captcha est requis")  // On s'occupera du captcha plus tard, notamment quand on aura commencé le front-end
