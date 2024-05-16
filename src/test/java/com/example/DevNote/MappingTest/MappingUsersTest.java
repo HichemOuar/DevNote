@@ -14,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest // Cette annotation prépare l'environnement de test de Spring Boot, configurant automatiquement les tests intégrés avec le contexte de l'application Spring. Elle est
 			   // essentielle pour tester des composants Spring, car elle charge la configuration complète et simule un environnement d'application.
-			  // En gros: c'est un test d'INTEGRATION
+			  // En gros: c'est un test d'INTEGRATION. Avantages : Ils testent le comportement réel de l'application dans des conditions qui simulent un environnement de production, ce
+			 // qui inclut l'intégration entre différents composants et la configuration de Spring. Inconvénients : Plus lourds en termes de performance car ils nécessitent de charger
+			//le contexte Spring et la base de données, et moins isolés (les erreurs peuvent provenir de divers composants interactifs, ce qui complique le diagnostic).
 
 public class MappingUsersTest
 {
