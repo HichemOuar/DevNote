@@ -28,7 +28,7 @@ public class UsersController {
 
     @PostMapping("/register")  //  Déclare que cette méthode gère les requêtes POST à l'URL /api/users/register
 
-    public ResponseEntity<?> registerUser(@RequestBody @Validated UsersRegistrationDTO registereduserdto, BindingResult bindingResult)  // @RequestBody aide la méthode du
+    public ResponseEntity<?> registerUser(@RequestBody @Validated UsersRegistrationDTO userdto, BindingResult bindingResult)  // @RequestBody aide la méthode du
     // contrôleur registerUser à comprendre que les données de ce formulaire ou de cette application doivent être prises et transformées en un objet Java. (Prends les données envoyées
     // avec cette requête HTTP et utilise-les pour remplir l'objet spécifié ici)
     // @Validated active la validation des données selon les annotations de validation dans UsersRegistrationDTO.
@@ -43,7 +43,7 @@ public class UsersController {
 
         try  // On ajoute un bloc try catch vérifier s'il n'y a pas d'autre type d'erreurs: Par exemple, pour la disponibilité de username/mail, ça ne se fait pas au niveau du DTO!
         {
-            userService.createUser(registereduserdto);
+            userService.createUser(userdto);
             return ResponseEntity.ok("Création du compte utilisateur réussie"); // Si aucune erreur n'est détectée, passer au service pour créer l'utilisateur
         }
         catch (Exception e) // Exception e : Exception est la classe de base pour toutes les exceptions contrôlées en Java. Capturer Exception signifie qu'on attrape toutes les
