@@ -9,8 +9,8 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Cette annotation est utilisée pour spécifier la stratégie de génération de la valeur des clés primaires. Elle automatise la
                                                        // création de valeurs uniques pour chaque entitées. IDENTITY est une des stratégies de génération qui indique que la clé primaire
                                                       //  sera générée par la base de données,
-    @Column(name = "ID_USER")
-    private Long ID;
+    @Column(name = "ID_user")
+    private Integer ID;
 
     @Column(name = "Username", nullable = false) // Ces champs sont mappés aux colonnes correspondantes en base de données.IL EST NECESSAIRE d'AJOUTER nullable=false si le champs ne
                                                 //  peut pas être nul en bdd, sauf pour l'ID car c'est autogénéré par Spring JPA avec l'annotation GeneratedValue
@@ -42,12 +42,12 @@ public class Users {
         this.role = role;
     }
 
-    public Long getId()
+    public Integer getId()
     {
         return ID;
     }
 
-    public void setId(Long ID)
+    public void setId(Integer ID)
     {
         this.ID = ID;
     }

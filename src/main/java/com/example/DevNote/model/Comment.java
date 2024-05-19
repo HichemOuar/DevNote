@@ -11,8 +11,8 @@ public class Comment
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_comment")
-    private Long ID;
+    @Column(name = "id_comment")
+    private Integer ID;
     @Column(name = "content", nullable = false)
     private String content;
     @Column(name = "date_of_post", nullable = false)
@@ -43,12 +43,12 @@ public class Comment
     }
 
 
-    public Long getID()
+    public Integer getID()
     {
         return ID;
     }
 
-    public void setID(Long ID)
+    public void setID(Integer ID)
     {
         this.ID = ID;
     }

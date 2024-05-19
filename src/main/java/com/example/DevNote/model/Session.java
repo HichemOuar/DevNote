@@ -8,12 +8,12 @@ public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_session")
-    private Long ID;
+    private Integer ID;
 
     @Column(name = "last_updated") // dans les versions récentes de java, on utilise le type LocalDateTime pour représenter une date
     private LocalDateTime lastupdated;
 
-    @Column(name = "score")
+    @Column(name = "Score")
     private int score;
 
     @Column(name = "time_spent")
@@ -41,12 +41,12 @@ public class Session {
         this.quizz = quizz;
     }
 
-    public Long getID()
+    public Integer getID()
     {
         return ID;
     }
 
-    public void setID(Long ID)
+    public void setID(Integer ID)
     {
         this.ID = ID;
     }

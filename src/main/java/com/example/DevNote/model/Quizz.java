@@ -11,11 +11,11 @@ public class Quizz
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_quizz")
-    private Long ID;
-    @Column(name = "title", nullable = false)
+    private Integer ID;
+    @Column(name = "Title", nullable = false)
     private String title;
     @Enumerated(EnumType.STRING)
-    @Column(name = "access", nullable = false)
+    @Column(name = "Access", nullable = false)
     private Access access;
     @Column(name = "time_limit")
     private int timelimit;
@@ -48,12 +48,12 @@ public class Quizz
      this.user= user;
     }
 
-    public Long getID()
+    public Integer getID()
     {
         return ID;
     }
 
-    public void setID(Long ID)
+    public void setID(Integer ID)
     {
         this.ID = ID;
     }

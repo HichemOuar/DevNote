@@ -11,7 +11,7 @@ public class Question
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_question")
-    private Long ID;
+    private Integer ID;
     @Column(name = "content", nullable = false)
     private String content;
     @Column(name = "expected_answer", nullable = false)
@@ -55,12 +55,12 @@ public class Question
         this.user = user;
     }
 
-    public Long getID()
+    public Integer getID()
     {
         return ID;
     }
 
-    public void setID(Long ID)
+    public void setID(Integer ID)
     {
         this.ID = ID;
     }

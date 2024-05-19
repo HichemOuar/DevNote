@@ -11,9 +11,9 @@ public class Tech
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_tech")
-    private Long ID;
+    private Integer ID;
     @Enumerated(EnumType.STRING)
-    @Column(name = "label", nullable = false)
+    @Column(name = "Label", nullable = false)
     private LabelTech label;
 
     @ManyToMany(mappedBy = "techs")
@@ -32,12 +32,12 @@ public class Tech
     }
 
 
-    public Long getID()
+    public Integer getID()
     {
         return ID;
     }
 
-    public void setID(Long ID)
+    public void setID(Integer ID)
     {
         this.ID = ID;
     }

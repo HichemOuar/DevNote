@@ -8,8 +8,8 @@ public class Answer
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_answer")
-    private Long ID;
+    @Column(name = "id_answer")
+    private Integer ID;
     @Column(name = "answer_content") // On utilise le type string pour les types 'text' de SQL
     private String answercontent;
     @Column(name = "answer_value")
@@ -45,12 +45,12 @@ public class Answer
     }
 
 
-    public Long getID()
+    public Integer getID()
     {
         return ID;
     }
 
-    public void setID(Long ID)
+    public void setID(Integer ID)
     {
         this.ID = ID;
     }
