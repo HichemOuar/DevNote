@@ -1,9 +1,16 @@
 package com.example.DevNote.controller;
 
 import com.example.DevNote.DTO.UsersRegistrationDTO;
+import com.example.DevNote.DTO.UsersLoginDTO;
+import com.example.DevNote.security.JwtAuthenticationResponse;
+import com.example.DevNote.security.TokenProvider;
 import com.example.DevNote.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,14 +32,19 @@ public class UsersController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @PostMapping("/register")  //  Déclare que cette méthode gère les requêtes POST à l'URL /api/users/register
 
-    public ResponseEntity<?> registerUser(@RequestBody @Validated UsersRegistrationDTO userdto, BindingResult bindingResult)  // @RequestBody aide la méthode du
-    // contrôleur registerUser à comprendre que les données de ce formulaire ou de cette application doivent être prises et transformées en un objet Java. (Prends les données envoyées
-    // avec cette requête HTTP et utilise-les pour remplir l'objet spécifié ici)
-    // @Validated active la validation des données selon les annotations de validation dans UsersRegistrationDTO.
-    // Si il y a des erreurs, elles seront contenues dans la variable bindingResult
+    public ResponseEntity<?> registerUser(@RequestBody @Validated UsersRegistrationDTO userdto, BindingResult bindingResult) //ResponseEntity est un type qui encapsule des informations de
+    // réponse HTTP, y compris le statut, les en-têtes et le corps. Le caractère générique <?> indique que cette méthode peut renvoyer une réponse de n'importe quel type.
+    // @RequestBody aide la méthode du contrôleur registerUser à comprendre que les données de ce formulaire ou de cette application doivent être prises et transformées en un objet Java.
+    // (Prends les données envoyées avec cette requête HTTP et utilise-les pour remplir l'objet spécifié ici).@Validated active la validation des données selon les annotations de
+    // validation dans UsersRegistrationDTO.Si il y a des erreurs, elles seront contenues dans la variable bindingResult
 
     {
         if (bindingResult.hasErrors()) // On vérifie ici s'il y a des erreurs liés aux contraintes de validation du DTO
@@ -53,4 +65,21 @@ public class UsersController {
                                                                     // par le constructeur de l'exception ou par une surcharge de cette exception
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody @Validated UsersLoginDTO loginDTO) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword())
+                // Quand un utilisateur envoie son nom d'utilisateur et son mot de passe (à travers une requête POST sur /login), ces informations sont encapsulées dans un objet
+                // UsernamePasswordAuthenticationToken. Ce token est ensuite passé à authenticationManager, un outil de Spring Security qui vérifie si les informations d'identification
+                // sont correctes. Si les informations sont correctes, authenticationManager renvoie un objet Authentication qui confirme que l'utilisateur est authentifié.
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication); //  L'objet authentication est ensuite stocké dans le SecurityContext de Spring Security, qui est un espace
+        // où Spring garde les détails de l'utilisateur connecté durant toute la session.
+        String jwt = tokenProvider.generateToken(authentication); // Après l'authentification, un JWT est généré pour cet utilisateur. Il est créé par tokenProvider, qui utilise les informations de l'utilisateur authentifié pour construire ce token.
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt)); // Enfin, le token JWT est envoyé de retour à l'utilisateur dans une réponse HTTP. La classe JwtAuthenticationResponse
+        // est utilisée pour formater cette réponse. Elle contient le JWT que l'utilisateur doit utiliser pour s'authentifier lors des requêtes futures à l'API.
+    }
+
+
 }
