@@ -85,7 +85,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version> <!-- Assurez-vous que cette version est compatible avec Java 21 -->
+				<version>3.13.0</version>
 				<configuration>
 					<release>21</release>
 				</configuration>
