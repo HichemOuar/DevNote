@@ -1,22 +1,12 @@
 package com.example.DevNote.controller;
 
 import com.example.DevNote.DTO.UsersRegistrationDTO;
-import com.example.DevNote.DTO.UsersLoginDTO;
-import com.example.DevNote.security.JwtAuthenticationResponse;
-import com.example.DevNote.security.TokenProvider;
 import com.example.DevNote.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController // Cette annotation indique que la classe est un contrôleur REST.REST est une manière standard de structurer les communications entre un client (comme un navigateur web ou
 // une application mobile) et un serveur. Un service web RESTful permet au client de récupérer ou modifier des informations sur le serveur à travers des requêtes HTTP standards
@@ -32,11 +22,6 @@ public class UsersController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private TokenProvider tokenProvider;
 
     @PostMapping("/register")  //  Déclare que cette méthode gère les requêtes POST à l'URL /api/users/register
 
@@ -65,21 +50,5 @@ public class UsersController {
                                                                     // par le constructeur de l'exception ou par une surcharge de cette exception
         }
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody @Validated UsersLoginDTO loginDTO) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword())
-                // Quand un utilisateur envoie son nom d'utilisateur et son mot de passe (à travers une requête POST sur /login), ces informations sont encapsulées dans un objet
-                // UsernamePasswordAuthenticationToken. Ce token est ensuite passé à authenticationManager, un outil de Spring Security qui vérifie si les informations d'identification
-                // sont correctes. Si les informations sont correctes, authenticationManager renvoie un objet Authentication qui confirme que l'utilisateur est authentifié.
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication); //  L'objet authentication est ensuite stocké dans le SecurityContext de Spring Security, qui est un espace
-        // où Spring garde les détails de l'utilisateur connecté durant toute la session.
-        String jwt = tokenProvider.generateToken(authentication); // Après l'authentification, un JWT est généré pour cet utilisateur. Il est créé par tokenProvider, qui utilise les informations de l'utilisateur authentifié pour construire ce token.
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt)); // Enfin, le token JWT est envoyé de retour à l'utilisateur dans une réponse HTTP. La classe JwtAuthenticationResponse
-        // est utilisée pour formater cette réponse. Elle contient le JWT que l'utilisateur doit utiliser pour s'authentifier lors des requêtes futures à l'API.
-    }
-
 
 }
