@@ -12,10 +12,10 @@
 <body>
 
 <h1>Inscription</h1>
-<form action="/url" method="POST">
+<form action="/api/users/register" method="POST">
     <div>
         <label for="username">Nom d'utilisateur</label>
-        <input type="text" id="username" name="name" required>
+        <input type="text" id="username" name="username" required>  <!--Attention! le name doit correspondre exactement aux attributs du DTO  -->
     </div>
     <div>
         <label for="email">Email</label>
