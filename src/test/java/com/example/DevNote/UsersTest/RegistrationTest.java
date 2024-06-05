@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class) // Cette annotation prépare l'environnement de test pour utiliser Mockito.Cela permet d'utiliser des annotations comme @Mock et @InjectMocks pour
-                                   // simuler les dépendances.
+// simuler les dépendances.
 
 public class RegistrationTest {
 
