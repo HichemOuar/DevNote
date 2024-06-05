@@ -8,8 +8,8 @@ import jakarta.validation.constraints.Size;
 public class UsersRegistrationDTO {
 
     @NotBlank(message = "Veuillez renseigner un nom d'utilisateur") //La condition "le champs ne doit pas être nul' est implicitement gérée par l'annotation elle-même, ce qui est une
-                                                                   // des grandes forces d'utiliser des annotations prédéfinies pour la validation dans Spring Boot. Vaut aussi pour
-                                                                  //  les autres annotations
+    // des grandes forces d'utiliser des annotations prédéfinies pour la validation dans Spring Boot. Vaut aussi pour
+    //  les autres annotations
     @Size(max = 15, message = "Le nom d'utilisateur ne peut pas dépasser 15 caractères")
     private String username;
     @NotBlank(message = "Veuillez renseigner un email")
@@ -49,8 +49,8 @@ public class UsersRegistrationDTO {
     }
 
     public String getCaptchaResponse() {
-        return captchaResponse;
-    }
+          return captchaResponse;
+       }
 
     public void setCaptchaResponse(String captchaResponse) {
         this.captchaResponse = captchaResponse;
