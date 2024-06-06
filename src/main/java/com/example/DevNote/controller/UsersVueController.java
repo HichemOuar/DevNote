@@ -24,4 +24,9 @@ public class UsersVueController
         return "login";
     }
 
+    @GetMapping("/home")
+    public String home() {
+        return "home";
+    }
+
 }

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Accueil Connecté</title>
+</head>
+
+
+<body>
+
+<h1>Bienvenue!</h1>
+
+
+<form action="/logout" method="post"> <!--Entrer directement l'URL de déconnexion dans la barre d'adresse du navigateur envoie une requête GET par défaut, ce qui n'est pas la méthode
+ attendue par Spring Security pour les actions de déconnexion. Spring Security est configuré par défaut pour accepter une requête POST pour la déconnexion, car cela empêche certaines
+  vulnérabilités de sécurité telles que les attaques CSRF  -->
+    <input type="submit" value="Logout"/>
+</form>
+
+
+</body>
+
+
+
+
+</html>

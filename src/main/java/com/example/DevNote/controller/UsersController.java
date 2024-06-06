@@ -22,10 +22,11 @@ public class UsersController {
 
     @Autowired
     private UserService userService;
+    
 
     @PostMapping("/register")  //  Déclare que cette méthode gère les requêtes POST à l'URL /api/users/register
 
-    public ResponseEntity<?> registerUser(@RequestBody @Validated UsersRegistrationDTO userdto, BindingResult bindingResult) //ResponseEntity est un type qui encapsule des informations de
+    public ResponseEntity<?> registerUser(@ModelAttribute @Validated UsersRegistrationDTO userdto, BindingResult bindingResult) //ResponseEntity est un type qui encapsule des informations de
     // réponse HTTP, y compris le statut, les en-têtes et le corps. Le caractère générique <?> indique que cette méthode peut renvoyer une réponse de n'importe quel type.
     // @RequestBody aide la méthode du contrôleur registerUser à comprendre que les données de ce formulaire ou de cette application doivent être prises et transformées en un objet Java.
     // (Prends les données envoyées avec cette requête HTTP et utilise-les pour remplir l'objet spécifié ici).@Validated active la validation des données selon les annotations de

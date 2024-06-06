@@ -4,10 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
+@EnableWebSecurity
 @Configuration // Indique que la classe contient des méthodes @Bean et peut être utilisée par le conteneur Spring pour générer des définitions de bean et des demandes de service
 public class SecurityConfig  {
 
@@ -26,7 +29,7 @@ public class SecurityConfig  {
         // pont entre les entités utilisateur (les données que l'on stocke sur les utilisateurs) et le mécanisme d'authentification de Spring Security.
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService()); //  utilise un UserDetailsService pour charger les détails d'un utilisateur à partir de la base de données
-                                                                 // lorsqu'une tentative de connexion est faite.
+        // lorsqu'une tentative de connexion est faite.
         authProvider.setPasswordEncoder(passwordEncoder()); //  Une fois que les détails de l'utilisateur sont chargés, le DaoAuthenticationProvider utilise un PasswordEncoder
         // pour vérifier le mot de passe fourni lors de la connexion. Il compare le mot de passe crypté stocké en BDD avec celui qui est soumis après l'avoir également crypté
 
@@ -39,13 +42,20 @@ public class SecurityConfig  {
         // utilisateurs non authentifiés vers la page de connexion, etc.
         http
                 .authorizeHttpRequests(auth -> auth // Configure quelles URL nécessitent une authentification et lesquelles sont accessibles publiquement.
-                        .requestMatchers("/vue/users/register", "/api/users/register").permitAll() // Autoriser l'accès à la page d'enregistrement
+                        .requestMatchers("/vue/users/register","/api/users/register").permitAll()// Autoriser l'accès à la page d'enregistrement
+                        .requestMatchers("/vue/users/home").hasAuthority("Apprenant")
                         .anyRequest().authenticated()) // toutes les autres requêtes nécessitent une authentification
                 .formLogin(login -> login
                         .loginPage("/vue/users/login")
                         .permitAll())
-                .logout(logout -> logout.permitAll());
-
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/vue/users/login")  // Rediriger après la déconnexion
+                        .deleteCookies("JSESSIONID")  // Supprimer le cookie de session
+                        .invalidateHttpSession(true))  // Invalider la session HTTP
+                .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/vue/users/register", "/api/users/register","/vue/users/login","/logout")); // Désactive CSRF uniquement pour les chemins spécifiés
+        ;
         return http.build();
     }
 }
