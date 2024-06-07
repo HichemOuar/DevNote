@@ -19,10 +19,6 @@ public class UsersRegistrationDTO {
     @Size(min = 8, max = 25, message = "Veuillez renseigner un mot de passe")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\\W]).*$", message = "Le mot de passe doit contenir des lettres, des chiffres et des caractères spéciaux")
     private String password;
-    //@NotBlank(message = "Le captcha est requis")
-    // private String captchaResponse;
-
-    // Getters et Setters:
 
     public String getUsername() {
         return username;
@@ -47,13 +43,5 @@ public class UsersRegistrationDTO {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    /*public String getCaptchaResponse() {
-          return captchaResponse;
-       }
-
-    public void setCaptchaResponse(String captchaResponse) {
-        this.captchaResponse = captchaResponse;
-    }*/
 
 }
