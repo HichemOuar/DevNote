@@ -5,26 +5,67 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+    <title>DevNote-Login</title>
+    <!-- Feuille de style Bootstrap par défaut -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Ma feuille de style personnalisée -->
+    <link href="/bootstrap/css/mystyle.css" rel="stylesheet">
 </head>
 
 
 <body>
 
-<h1>Login</h1>
-<form action="/vue/users/login" method="POST">
-    <div>
-        <label for="username">Nom d'utilisateur</label>
-        <input type="text" id="username" name="username" required> <!--Attention! le name doit correspondre exactement aux attributs du DTO  -->
+<!-- Ajout d'une barre de navigation -->
+<nav class="navbar navbar-expand-md navbar-light"> <!-- Change expand-lg to expand-md -->
+    <div class="container-fluid">
+
+        <!-- Logo -->
+        <a class="navbar-brand">
+            <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110.21 110.44" style="height:120px;">
+                <rect class="cls-1" x="6.4" y="4.34" width="103.56" height="105.84"/>
+                <rect class="cls-1" x="2.95" y="3.19" width="105.2" height="105.2"/>
+                <rect class="cls-3" x=".5" y=".5" width="105.84" height="105.84"/>
+                <text class="cls-2" transform="translate(7.43 62.21)">DevNote</text>
+            </svg>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-light text-dark btn-inscription" href="/vue/users/register">inscription</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-logout" href="/logout">Deconnexion</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div>
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <div>
-        <button type="submit">Connexion</button>
-    </div>
-</form>
+</nav>
+
+<div class="container d-flex text-center">
+
+        <h1 class="mb-3">Login</h1>
+        <form action="/vue/users/login" method="POST">
+            <div class="mb-3">
+                <label for="username" class="form-label">Nom d'utilisateur</label>
+                <input type="text" id="username" name="username" class="form-control" required > <!--Attention! le name doit correspondre exactement aux attributs du DTO  -->
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary btn-connexion">Se connecter</button>
+            </div>
+        </form>
+
+</div>
+
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

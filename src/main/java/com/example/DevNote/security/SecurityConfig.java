@@ -46,6 +46,7 @@ public class SecurityConfig  {
                         .requestMatchers("/vue/users/register","/api/users/register").permitAll()// Autoriser l'accès à la page d'enregistrement
                         .requestMatchers("/vue/users/home").hasAnyAuthority("Admin","Apprenant") // Autorise l'accès a la page d'accueil pour les utilisateurs ayant le role
                                                                                                                    // apprenant ou admin
+                        .requestMatchers("/bootstrap/**", "/css/**", "/js/**", "/fonts/**").permitAll() // Autoriser l'accès aux ressources statiques
                         .anyRequest().authenticated()) // toutes les autres requêtes nécessitent une authentification
                 .formLogin(login -> login
                         .loginPage("/vue/users/login")

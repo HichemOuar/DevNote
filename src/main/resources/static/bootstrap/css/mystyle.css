@@ -1,0 +1,181 @@
+/* Style général pour la navigation et le formulaire */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: deathnote2, sans-serif;
+}
+
+
+@font-face {  /* ajout de la police custom death note */
+    font-family: 'deathnote1';
+    src: url('/fonts/Death_Note.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {  /* ajout de la police custom death note */
+    font-family: 'deathnote2';
+    src: url('/fonts/death-font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.nav-link {
+    color: white; /* Liens blancs pour une meilleure visibilité sur fond noir */
+    margin-right: 15px; /* Espacement entre les liens */
+    letter-spacing: 1px; /* Augmente l'espacement entre les caractères */
+}
+
+.btn-logout {
+    background-color: red; /* Bouton déconnexion en rouge */
+    color: white; /* Texte en blanc */
+    font-weight:bold;
+}
+
+.btn-inscription
+{
+text-decoration:underline;
+text-underline-offset: 7px; /* Espacement entre le texte et le soulignement */
+font-weight:bold;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column; /* Aligner les éléments verticalement */
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Utilise toute la hauteur disponible */
+    padding-bottom: 40vh;
+    font-weight:bold;
+    letter-spacing: 1px; /* Augmente l'espacement entre les caractères */
+}
+
+
+.container-inscription {
+    display: flex;
+    flex-direction: column; /* Aligner les éléments verticalement */
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Utilise toute la hauteur disponible */
+    padding-bottom: 40vh;
+    font-weight:bold;
+    letter-spacing: 1px; /* Augmente l'espacement entre les caractères */
+}
+
+
+form {
+    width: 100%; /* Largeur du formulaire à 100% du conteneur */
+    max-width: 330px; /* Largeur maximale pour le formulaire */
+    border: 1px solid black; /* Ajoute une bordure gris clair */
+    padding: 20px; /* Ajoute de l'espace à l'intérieur du formulaire */
+    border-radius: 10px; /* Coins arrondis */
+    height:300px;
+}
+
+
+.form-inscription {
+
+height:500px;
+
+}
+
+
+.mb-20 {
+margin-bottom:20px;
+}
+
+.mt-10 {
+margin-top:10px;
+}
+
+/* Styles des champs de formulaire */
+input[type="password"] {
+    height: 40px; /* Hauteur fixe pour les champs de texte */
+    font-size: 16px;
+    font-family: Arial, sans-serif; /* Utilise une police classique, car les polices d'écriture customisées que j'ai introduites n'incluent pas les caractères pour les points ou autres symboles
+    utilisés pour masquer les mots de passe.*/
+}
+
+input[type="email"] {
+    height: 40px;
+    font-size: 16px;
+    font-family: Arial, sans-serif; /* Utilise une police classique, car les polices d'écriture customisées que j'ai introduites n'incluent pas le @ pour les emails.*/
+}
+
+input[type="text"] {
+    height: 40px;
+    font-size: 16px;
+    font-family: Arial, sans-serif; /* Utilise une police classique, car les polices d'écriture customisées que j'ai introduites n'incluent pas le @ pour les emails.*/
+}
+
+
+button {
+    width: 100%;
+    height: 40px; /* Hauteur fixe pour le bouton */
+    border: none;
+    border-radius: 4px; /* Bords arrondis pour le bouton */
+    font-size: 18px; /* Taille de la police du bouton */
+}
+
+
+.btn-connexion
+{
+    font-family: deathnote1, sans-serif;
+    font-size:20px;
+    padding-bottom: 8px;
+    height: auto; /* Permet au bouton d'ajuster sa hauteur en fonction du contenu et du padding */
+    line-height: normal; /* S'assure que la hauteur de ligne n'interfère pas avec le padding */
+    background-color:black;
+}
+
+h1 {
+    font-weight:bold;
+    font-family: deathnote1, sans-serif; /* Police plus standard et lisible */
+}
+
+
+/*Mise en forme du logo*/
+
+
+.logo .cls-1 {
+    stroke-width: .5px;
+    fill: #fff;
+    stroke: #1d1d1b;
+    stroke-miterlimit: 10;
+}
+
+.logo .cls-2 {
+    fill: #fff;
+    font-family: deathnote1, sans-serif;
+    font-size: 27px;
+}
+
+.logo .cls-3 {
+    fill: #1d1d1b;
+}
+
+/* Media queries */
+
+@media (max-width: 768px)
+{
+    .nav-link
+    {
+        margin-top: 10px; /* Ajoute de l'espacement vertical entre les liens lorsque la barre est réduite */
+    }
+
+    .navbar-brand
+    {
+        display: none; /* Cache le logo sur les petits écrans */
+    }
+
+    .container-inscription {
+        padding-bottom: 20vh;
+    }
+}
+
+
+
