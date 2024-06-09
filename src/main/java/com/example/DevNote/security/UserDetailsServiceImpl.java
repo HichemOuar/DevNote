@@ -7,9 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class UserDetailsServiceImpl implements UserDetailsService  // L'interface UserDetailsService, qui joue un rôle crucial dans la récupération des informations sur l'utilisateur
-// de la base de données. La méthode principale loadUserByUsername(String username) doit être implémentée pour rechercher un utilisateur par son nom d'utilisateur et retourner un
-// objet UserDetails.
+public class UserDetailsServiceImpl implements UserDetailsService  // L'interface UserDetailsService, qui joue un rôle crucial dans la récupération des informations sur
+// l'utilisateur de la base de données. La méthode principale loadUserByUsername(String username) doit être implémentée pour rechercher un utilisateur par son nom
+// d'utilisateur et retourner un objet UserDetails.
 {
     @Autowired
     private UsersRepository userRepository;
