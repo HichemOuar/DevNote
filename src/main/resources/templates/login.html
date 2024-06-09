@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -36,10 +36,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link btn btn-light text-dark btn-inscription" href="/vue/users/register">inscription</a>
+                    <a class="nav-link btn btn-light text-dark btn-inscription" th:href="@{/vue/users/register}">inscription</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-logout" href="/logout">Deconnexion</a>
+                    <a class="nav-link btn btn-logout" th:href="@{/logout}">Deconnexion</a>
                 </li>
             </ul>
         </div>
@@ -48,20 +48,20 @@
 
 <div class="container d-flex text-center">
 
-        <h1 class="mb-3">Login</h1>
-        <form action="/vue/users/login" method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label">Nom d'utilisateur</label>
-                <input type="text" id="username" name="username" class="form-control" required > <!--Attention! le name doit correspondre exactement aux attributs du DTO  -->
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Mot de passe</label>
-                <input type="password" id="password" name="password" class="form-control" required>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary btn-connexion">Se connecter</button>
-            </div>
-        </form>
+    <h1 class="mb-3">Login</h1>
+    <form th:action="@{/vue/users/login}" method="POST">
+        <div class="mb-3">
+            <label for="username" class="form-label">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" class="form-control" required > <!--Attention! le name doit correspondre exactement aux attributs du DTO  -->
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary btn-connexion">Se connecter</button>
+        </div>
+    </form>
 
 </div>
 

@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -37,10 +37,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link btn btn-light text-dark btn-inscription" href="/vue/users/login">Se connecter</a>
+                    <a class="nav-link btn btn-light text-dark btn-inscription" th:href="@{/vue/users/login}">Se connecter</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-logout" href="/logout">Deconnexion</a>
+                    <a class="nav-link btn btn-logout" th:href="@{/logout}" >Deconnexion</a>
                 </li>
             </ul>
         </div>
@@ -51,7 +51,7 @@
 
     <h1 class="mb-3">Inscription</h1>
 
-    <form action="/api/users/register" class="form-inscription" method="POST">
+    <form th:action="@{/api/users/register}" class="form-inscription" method="POST">
         <div class="mb-3">
             <label for="username" class="form-label">Nom d'utilisateur</label>
             <input type="text" id="username" name="username" class="form-control" required>  <!--Attention! le name doit correspondre exactement aux attributs du DTO  -->
