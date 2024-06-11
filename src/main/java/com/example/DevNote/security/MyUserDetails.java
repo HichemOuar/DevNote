@@ -11,7 +11,8 @@ import java.util.Collection;
 public class MyUserDetails implements UserDetails { //  UserDetails est une interface centrale dans Spring Security. Elle est utilisée pour encapsuler les informations d'un utilisateur,
     // que Spring Security utilisera ensuite pour réaliser l'authentification et d'autres vérifications de sécurité. Cette interface définit plusieurs méthodes essentielles que
     // Spring Security utilise pour contrôler l'accès, telles que getUsername(), getPassword(), et getAuthorities(), ainsi que des 	méthodes pour vérifier si le compte est toujours
-    // actif (non verrouillé etc..)
+    // actif (non verrouillé etc..). On a besoin d'override les méthodes de UserDetails pour pouvoir utiliser hasAnyAuthority de Spring security ( car le j'ai défini le role comme une
+    // enum et non un string)
 
     private Users user;
 
