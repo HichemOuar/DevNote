@@ -21,7 +21,7 @@ public class Answer
     @JoinColumn(name = "ID_question", nullable = false)
     private Question question;
     @OneToOne
-    @JoinColumn(name = "ID_session")
+    @JoinColumn(name = "ID_session", nullable = false)
     private Session session;
 
     // Constructeur, getters et setters
