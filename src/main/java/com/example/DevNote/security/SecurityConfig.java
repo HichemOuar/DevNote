@@ -43,8 +43,8 @@ public class SecurityConfig  {
         // utilisateurs non authentifiés vers la page de connexion, etc.
         http
                 .authorizeHttpRequests(auth -> auth // Configure quelles URL nécessitent une authentification et lesquelles sont accessibles publiquement.
-                        .requestMatchers("/vue/users/register","/api/users/register","/logout").permitAll()// Autoriser l'accès à la page d'enregistrement
-                        .requestMatchers("/vue/users/home").hasAnyAuthority("Admin","Apprenant") // Autorise l'accès a la page d'accueil pour les utilisateurs ayant le role
+                        .requestMatchers("/vue/users/register","/api/users/register","/logout").permitAll()
+                        .requestMatchers("/vue/users/home","vue/questionboard").hasAnyAuthority("Admin","Apprenant") // Autorise l'accès a la page d'accueil pour les utilisateurs ayant le role
                                                                                                                    // apprenant ou admin
                         .requestMatchers("/bootstrap/**", "/css/**", "/js/**", "/fonts/**").permitAll() // Autoriser l'accès aux ressources statiques
                         .anyRequest().authenticated()) // toutes les autres requêtes nécessitent une authentification
@@ -58,7 +58,8 @@ public class SecurityConfig  {
                         .deleteCookies("JSESSIONID")  // Supprimer le cookie de session
                         .invalidateHttpSession(true))  // Invalider la session HTTP
                 .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/vue/users/register", "/api/users/register","/vue/users/login","/logout")); // Désactive CSRF uniquement pour les chemins spécifiés
+                .ignoringRequestMatchers("/vue/users/register", "/api/users/register","/vue/users/login","/logout","vue/questionboard"));
+                // Désactive CSRF uniquement pour les chemins spécifiés
         ;
         return http.build();
     }

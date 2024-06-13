@@ -59,6 +59,33 @@ font-weight:bold;
 }
 
 
+.containerhome {
+    display: flex;
+    flex-direction: column; /* Aligner les éléments verticalement */
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Utilise toute la hauteur disponible */
+    padding-bottom: 85vh;
+    font-weight:bold;
+    letter-spacing: 1px; /* Augmente l'espacement entre les caractères */
+}
+
+
+.containerquestionboard {
+    display: flex;
+    flex-direction: column; /* Aligner les éléments verticalement */
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Utilise toute la hauteur disponible */
+    padding-bottom: 85vh;
+    font-weight:bold;
+    letter-spacing: 1px; /* Augmente l'espacement entre les caractères */
+}
+
+
+
+
+
 .container-inscription {
     display: flex;
     flex-direction: column; /* Aligner les éléments verticalement */
@@ -185,7 +212,13 @@ h1 {
     .container-inscription {
         padding-bottom: 20vh;
     }
+
+    .containerhome {
+    padding-bottom: 70vh;
+
 }
+
+
 
 
 
