@@ -1,26 +1,63 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Accueil Connecté</title>
+    <!-- Feuille de style Bootstrap par défaut -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Ma feuille de style personnalisée -->
+    <link href="/bootstrap/css/mystyle.css" rel="stylesheet">
 </head>
 
 
 <body>
 
-<h1>Bienvenue!</h1>
+<nav class="navbar navbar-expand-md navbar-light"> <!-- Change expand-lg to expand-md -->
+    <div class="container-fluid">
+
+        <!-- Logo -->
+        <a class="navbar-brand">
+            <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110.21 110.44" style="height:120px;">
+                <rect class="cls-1" x="6.4" y="4.34" width="103.56" height="105.84"/>
+                <rect class="cls-1" x="2.95" y="3.19" width="105.2" height="105.2"/>
+                <rect class="cls-3" x=".5" y=".5" width="105.84" height="105.84"/>
+                <text class="cls-2" transform="translate(7.43 62.21)">DevNote</text>
+            </svg>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <!-- Spring Security attend une requête POST pour déclencher la déconnexion de manière sécurisée, afin de prévenir les attaques CSRF
+                    (Cross-Site Request Forgery). En utilisant un lien (<a href...) pour la déconnexion, tu envoies une requête GET, ce qui n'est pas traité par
+                    Spring Security pour les actions de déconnexion par défaut. -->
+                <form action="/logout" method="post">
+                    <button type="submit" class="btn btn-logout nav-link">Deconnexion</button>
+                </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 
-<form action="/logout" method="post"> <!--Entrer directement l'URL de déconnexion dans la barre d'adresse du navigateur envoie une requête GET par défaut, ce qui n'est pas la méthode
- attendue par Spring Security pour les actions de déconnexion. Spring Security est configuré par défaut pour accepter une requête POST pour la déconnexion, car cela empêche certaines
-  vulnérabilités de sécurité telles que les attaques CSRF  -->
-    <input type="submit" value="Logout"/>
-</form>
 
 
+<h1>Fil d'evenements</h1>
+<p> Actions réalisées récemment par l'utilisateur ( questions/quizz créés , dernières sessions etc... En cours de développement</p>
+
+
+
+
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 

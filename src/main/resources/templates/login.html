@@ -38,9 +38,6 @@
                 <li class="nav-item">
                     <a class="nav-link btn btn-light text-dark btn-inscription" th:href="@{/vue/users/register}">inscription</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-logout" th:href="@{/logout}">Deconnexion</a>
-                </li>
             </ul>
         </div>
     </div>
@@ -49,7 +46,7 @@
 <div class="container d-flex text-center">
 
     <h1 class="mb-3">Login</h1>
-    <form th:action="@{/vue/users/login}" method="POST">
+    <form th:action="@{/vue/users/login}" id="form" method="POST">
         <div class="mb-3">
             <label for="username" class="form-label">Nom d'utilisateur</label>
             <input type="text" id="username" name="username" class="form-control" required > <!--Attention! le name doit correspondre exactement aux attributs du DTO  -->

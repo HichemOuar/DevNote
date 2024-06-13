@@ -43,7 +43,7 @@ public class SecurityConfig  {
         // utilisateurs non authentifiés vers la page de connexion, etc.
         http
                 .authorizeHttpRequests(auth -> auth // Configure quelles URL nécessitent une authentification et lesquelles sont accessibles publiquement.
-                        .requestMatchers("/vue/users/register","/api/users/register").permitAll()// Autoriser l'accès à la page d'enregistrement
+                        .requestMatchers("/vue/users/register","/api/users/register","/logout").permitAll()// Autoriser l'accès à la page d'enregistrement
                         .requestMatchers("/vue/users/home").hasAnyAuthority("Admin","Apprenant") // Autorise l'accès a la page d'accueil pour les utilisateurs ayant le role
                                                                                                                    // apprenant ou admin
                         .requestMatchers("/bootstrap/**", "/css/**", "/js/**", "/fonts/**").permitAll() // Autoriser l'accès aux ressources statiques

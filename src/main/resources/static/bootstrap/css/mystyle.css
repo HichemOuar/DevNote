@@ -22,6 +22,10 @@ html, body {
     font-style: normal;
 }
 
+p {
+font-family: Arial, sans-serif;
+}
+
 
 .nav-link {
     color: white; /* Liens blancs pour une meilleure visibilité sur fond noir */
@@ -66,20 +70,26 @@ font-weight:bold;
     letter-spacing: 1px; /* Augmente l'espacement entre les caractères */
 }
 
-
-form {
+#form{
     width: 100%; /* Largeur du formulaire à 100% du conteneur */
     max-width: 330px; /* Largeur maximale pour le formulaire */
     border: 1px solid black; /* Ajoute une bordure gris clair */
     padding: 20px; /* Ajoute de l'espace à l'intérieur du formulaire */
     border-radius: 10px; /* Coins arrondis */
     height:300px;
+
 }
+
 
 
 .form-inscription {
 
 height:500px;
+    width: 100%; /* Largeur du formulaire à 100% du conteneur */
+    max-width: 330px; /* Largeur maximale pour le formulaire */
+    border: 1px solid black; /* Ajoute une bordure gris clair */
+    padding: 20px; /* Ajoute de l'espace à l'intérieur du formulaire */
+    border-radius: 10px; /* Coins arrondis */
 
 }
 
