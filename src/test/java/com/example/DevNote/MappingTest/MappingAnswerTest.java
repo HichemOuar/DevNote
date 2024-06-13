@@ -4,9 +4,7 @@ import com.example.DevNote.model.*;
 import com.example.DevNote.repository.AnswerRepository;
 import com.example.DevNote.repository.QuestionRepository;
 import com.example.DevNote.repository.UsersRepository;
-import com.example.DevNote.service.AnswerService;
-import com.example.DevNote.service.QuestionService;
-import com.example.DevNote.service.UserService;
+import com.example.DevNote.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,13 +32,20 @@ public class MappingAnswerTest
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private SessionService sessionService;
+
+    @Autowired
+    private QuizzService quizzService;
 
     @Test
     public void testCRUDAnswerOK()
     {
         Users user = userService.createUserTestMapping("utilisateur", "mail@example.com", "password", Role.Apprenant);
         Question question = questionService.createQuestionMinimum("Qu'est ce que Java?","Un langage de programmation", Access.privé,user);
-        Answer answer = answerService.createAnswerWithContent(user,question,"Ma réponse");
+        Quizz quizz = quizzService.createQuizzMinimum("Quizz de test",Access.privé,user);
+        Session session = sessionService.createSessionMinimum(user,quizz);
+        Answer answer = answerService.createAnswerWithContent(user,question,session,"Ma réponse");
         assertThat(answerRepository.findById(answer.getID())).isPresent();
         answer.setAnswerContent("Ma réponse 2");
         answerRepository.save(answer);

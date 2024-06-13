@@ -30,17 +30,19 @@ public class Answer
     {
     }
 
-    public Answer(Users user,Question question)
+    public Answer(Users user,Question question, Session session)
     {
         this.user = user;
         this.question = question;
+        this.session = session;
     }
 
 
-    public Answer(Users user,Question question,String answercontent)
+    public Answer(Users user,Question question, Session session, String answercontent)
     {
         this.user = user;
         this.question = question;
+        this.session = session;
         this.answercontent = answercontent;
     }
 

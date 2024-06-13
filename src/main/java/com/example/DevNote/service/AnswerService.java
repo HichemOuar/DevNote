@@ -1,6 +1,7 @@
 package com.example.DevNote.service;
 import com.example.DevNote.model.Answer;
 import com.example.DevNote.model.Question;
+import com.example.DevNote.model.Session;
 import com.example.DevNote.model.Users;
 import com.example.DevNote.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,14 @@ public class AnswerService {
     private AnswerRepository answerRepository;
 
 
-    public Answer createAnswerMinimum(Users user, Question question) {
-        Answer answer = new Answer(user,question);
+    public Answer createAnswerMinimum(Users user, Question question, Session session) {
+        Answer answer = new Answer(user,question,session);
         answerRepository.save(answer);
         return answer;
     }
 
-    public Answer createAnswerWithContent(Users user, Question question, String answercontent) {
-        Answer answer = new Answer(user,question,answercontent);
+    public Answer createAnswerWithContent(Users user, Question question, Session session, String answercontent) {
+        Answer answer = new Answer(user,question,session,answercontent);
         answerRepository.save(answer);
         return answer;
     }
