@@ -150,6 +150,18 @@ input[type="text"] {
 }
 
 
+textarea
+{
+
+    height:41vh;
+    resize: none; /* Empêche l'utilisateur de redimensionner le textarea */
+    font-size: 16px;
+    font-family: Arial, sans-serif; /* Utilise une police classique, car les polices d'écriture customisées que j'ai introduites n'incluent pas le @ pour les emails.*/
+
+}
+
+
+
 button {
     width: 100%;
     height: 40px; /* Hauteur fixe pour le bouton */
@@ -157,6 +169,13 @@ button {
     border-radius: 4px; /* Bords arrondis pour le bouton */
     font-size: 18px; /* Taille de la police du bouton */
 }
+
+
+.btn-primary:hover {
+    background-color: #555;
+    border-color: #555;
+}
+
 
 
 .btn-connexion
@@ -168,6 +187,23 @@ button {
     line-height: normal; /* S'assure que la hauteur de ligne n'interfère pas avec le padding */
     background-color:black;
 }
+
+
+.btn-creer
+{
+    font-family: deathnote1, sans-serif;
+    font-size:22px;
+    padding-bottom: 8px;
+    height: auto; /* Permet au bouton d'ajuster sa hauteur en fonction du contenu et du padding */
+    line-height: normal; /* S'assure que la hauteur de ligne n'interfère pas avec le padding */
+    background-color:black;
+    width: 100px;
+    margin-left: calc((100% - 100px) / 2); /* garantit que le bouton sera toujours centré par rapport à l'espace restant */
+    margin-top:2vh;
+}
+
+
+
 
 h1 {
     font-weight:bold;
@@ -212,6 +248,35 @@ margin-top:10vh;
 text-decoration:none;
 }
 
+
+.create-question-form {
+    width: 70vw;
+    height:80vh;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    font-weight:bold;
+    letter-spacing: 1px; /* Augmente l'espacement entre les caractères */
+    justify-content: space-between; /* Assure que le contenu utilise tout l'espace vertical disponible */
+    display: flex;
+    flex-direction: column;
+
+}
+
+.create-question-form h1 {
+    color: #333;
+}
+
+.form-control {
+    padding: 10px;
+    margin-top:1vh;
+}
+
+.form-check-label {
+    font-size: 16px;
+}
 
 
 /* Media queries */
@@ -259,7 +324,39 @@ text-decoration:none;
 
     }
 
+
+    .create-question-form {
+        width: 90vw;
+    }
+
 }
+
+@media (max-width: 270px)
+{
+    textarea
+    {
+
+        height:36vh;
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
