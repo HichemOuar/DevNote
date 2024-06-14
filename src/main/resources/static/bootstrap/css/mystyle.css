@@ -76,8 +76,8 @@ font-weight:bold;
     flex-direction: column; /* Aligner les éléments verticalement */
     justify-content: center;
     align-items: center;
-    height: 100%; /* Utilise toute la hauteur disponible */
-    padding-bottom: 85vh;
+    height: auto;
+    margin-top: 0;
     font-weight:bold;
     letter-spacing: 1px; /* Augmente l'espacement entre les caractères */
 }
@@ -195,6 +195,25 @@ h1 {
     fill: #1d1d1b;
 }
 
+.block {
+    background-color: black;
+    color: white;
+    padding-top: 80px;
+    padding-bottom: 90px;
+    height:200px;
+    text-align: center;
+}
+
+.blocks {
+margin-top:10vh;
+}
+
+.no-underline {
+text-decoration:none;
+}
+
+
+
 /* Media queries */
 
 @media (max-width: 768px)
@@ -209,14 +228,41 @@ h1 {
         display: none; /* Cache le logo sur les petits écrans */
     }
 
-    .container-inscription {
+    .container-inscription
+    {
         padding-bottom: 20vh;
     }
 
-    .containerhome {
+    .containerhome
+    {
     padding-bottom: 70vh;
+    }
+
+    .containerquestionboard
+    {
+        margin-top: 5vh;
+    }
+
+    .block
+    {
+        width: min(80vw, 500px); /* le block ne peut simultanément pas dépasser 80% de la largeur de l'écran et 500 px. Le min permet de choisir la plus petite valeur entre les deux */
+    }
+
+    .blocks
+    {
+        margin-top: 5vh;
+    }
+
+    .margin-top-block2
+    {
+        margin-top:10vh;
+
+    }
 
 }
+
+
+
 
 
 
