@@ -57,20 +57,20 @@
 
 <div class="create-question-form">
     <h1 class="text-center">Creer une Question</h1>
-    <form>
+    <form th:action="@{/api/question/create}" method="POST">
         <div class="form-group mb-3">
-            <label for="questionTitle">intitule</label>
-            <input type="text" class="form-control" id="questionTitle" name="questionTitle" placeholder="Entrez l'intitulé de la question" required>
+            <label for="content">intitule</label>
+            <input type="text" class="form-control" id="content" name="content" placeholder="Entrez l'intitulé de la question" required>
         </div>
 
         <div class="form-group mb-3">
-            <label for="questionAnswer">reponse attendue</label>
-            <textarea class="form-control" id="questionAnswer" name="questionAnswer" placeholder="Entrez la réponse attendue"></textarea>
+            <label for="expectedanswer">reponse attendue</label>
+            <textarea class="form-control" id="expectedanswer" name="expectedanswer" placeholder="Entrez la réponse attendue"></textarea>
         </div>
 
         <div class="form-group form-check mb-3">
-            <input type="checkbox" class="form-check-input" id="questionPublic" name="questionPublic">
-            <label class="form-check-label" for="questionPublic">rendre la question publique</label>
+            <input type="checkbox" class="form-check-input" id="access" name="access">
+            <label class="form-check-label" for="access">rendre la question publique</label>
         </div>
 
         <button type="submit" class="btn btn-primary btn-creer centered-text">Creer</button>

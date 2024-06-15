@@ -14,7 +14,7 @@ public class Question
     private Integer ID;
     @Column(name = "content", nullable = false)
     private String content;
-    @Column(name = "expected_answer", nullable = false)
+    @Column(name = "expected_answer", nullable = false,columnDefinition = "TEXT")  // en base de données, expected_answer est de type medium text ( accepte jusqu'à  65,535 caractères)
     private String expectedanswer;
     @Column(name = "visual_infos") // Pour les champs de type mediumblob dans une base de données MySQL qui sont utilisés pour stocker de grands objets binaires (comme des images, des
                                   //  fichiers audio, ou d'autres données binaires), le type Java approprié est byte[]. Ce type permet de stocker des données binaires sous forme de
