@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class QuestionService {
 
@@ -38,5 +40,9 @@ public class QuestionService {
         questionRepository.save(question);
         return question;
 
+    }
+
+    public List<Question> getQuestionsForUserAndPublic(Users user) {
+        return questionRepository.findByUserOrAccess(user, Access.publique);
     }
 }

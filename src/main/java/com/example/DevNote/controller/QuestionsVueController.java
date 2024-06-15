@@ -18,10 +18,7 @@ public class QuestionsVueController
         return "questionboard";
     }
 
-    @GetMapping("/searchquestion")
-    public String searchquestion() {
-        return "searchquestion";
-    }
+
 
     @GetMapping("/createquestion")
     public String createquestion() {

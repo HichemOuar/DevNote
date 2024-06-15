@@ -58,6 +58,10 @@
 <div class="containerhome d-flex text-center">
     <h1>Chercher une question</h1>
 
+    <div th:each="question : ${questions}">
+        <p th:text="${question.content}"></p>
+        <p th:text="${question.expectedanswer}"></p>
+    </div>
 
 </div>
 
