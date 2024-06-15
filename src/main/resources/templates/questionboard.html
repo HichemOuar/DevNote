@@ -36,10 +36,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link btn btn-light text-dark btn-inscription" th:href="@{/vue/users/quizz}">Quizz</a>
+                        <a class="nav-link btn btn-light text-dark btn-inscription" th:href="@{/users/quizz}">Quizz</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-light text-dark btn-inscription" th:href="@{/vue/questionboard}">Questions</a>
+                        <a class="nav-link btn btn-light text-dark btn-inscription" th:href="@{/question/questionboard}">Questions</a>
                     </li>
                     <li class="nav-item">
                         <!-- Spring Security attend une requête POST pour déclencher la déconnexion de manière sécurisée, afin de prévenir les attaques CSRF
@@ -59,10 +59,10 @@
     </div>
 
         <div class="row justify-content-around blocks">
-            <a th:href="@{/vue/createquestion}" class="col-md-5 col-xs-10 block mx-auto no-underline">
+            <a th:href="@{/question/createquestion}" class="col-md-5 col-xs-10 block mx-auto no-underline">
                 <h2>creer une question</h2>
             </a>
-            <a th:href="@{/api/question/search}" class="col-md-5 col-xs-10 block mx-auto no-underline margin-top-block2">
+            <a th:href="@{/question/search}" class="col-md-5 col-xs-10 block mx-auto no-underline margin-top-block2">
                 <h2>rechercher une question</h2>
             </a>
         </div>

@@ -4,7 +4,6 @@ import com.example.DevNote.DTO.UsersRegistrationDTO;
 import com.example.DevNote.security.reCaptcha.CaptchaValidator;
 import com.example.DevNote.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 
-@RequestMapping("/api/users") // Définit l'URL de base pour toutes les requêtes gérées par ce contrôleur. Ainsi, toutes les méthodes de ce contrôleur commenceront par /api/users.
+@RequestMapping("/users") // Définit l'URL de base pour toutes les requêtes gérées par ce contrôleur. Ainsi, toutes les méthodes de ce contrôleur commenceront par /api/users.
 public class UsersController {
 
     @Autowired
@@ -22,10 +21,9 @@ public class UsersController {
 
     @PostMapping("/register")  //  Déclare que cette méthode gère les requêtes POST à l'URL /api/users/register
 
-    public ResponseEntity<?> registerUser(@ModelAttribute @Validated UsersRegistrationDTO userdto, BindingResult bindingResult,
+    public String registerUser(@ModelAttribute @Validated UsersRegistrationDTO userdto, BindingResult bindingResult,
                                           @RequestParam("g-recaptcha-response") String captcha)
-    //ResponseEntity est un type qui encapsule des informations de réponse HTTP, y compris le statut, les en-têtes et le corps. Le caractère générique <?> indique que cette
-    // méthode peut renvoyer une réponse de n'importe quel type.
+
     // Lorsqu'un formulaire est soumis à un serveur, il envoie les données sous forme de paires clé-valeur. Sans @ModelAttribute, on devrait récupérer chaque valeur
     // individuellement à partir des paramètres de la requête. @ModelAttribute automatise ce processus et crée un objet userdto à partir des données envoyées par le client.
     // @Validated active la validation des données selon les annotations de validation dans UsersRegistrationDTO.i il y a des erreurs, elles seront contenues dans la variable
@@ -40,25 +38,44 @@ public class UsersController {
     {
         if (bindingResult.hasErrors()) // On vérifie ici s'il y a des erreurs liés aux contraintes de validation du DTO
         {
-            // Si des erreurs de validation sont détectées, retourner une réponse avec ces erreurs
-            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+            System.out.println("Erreurs de validation des entrées: "+(bindingResult.getAllErrors()));
+            return "register";
         }
 
         if(!validator.isValidCaptcha(captcha)) { // Cette méthode appelle CaptchaValidator pour vérifier si la réponse du captcha est valide.
-            return ResponseEntity.badRequest().body("Captcha invalide");
+            System.out.println("Captcha invalide: "+(bindingResult.getAllErrors()));
+            return "register";
         }
 
         try  // On ajoute un bloc try catch vérifier s'il n'y a pas d'autre type d'erreurs: Par exemple, pour la disponibilité de username/mail, ça ne se fait pas au niveau du DTO!
         {
             userService.createUser(userdto);
-            return ResponseEntity.ok("Création du compte utilisateur réussie"); // Si aucune erreur n'est détectée, passer au service pour créer l'utilisateur
+            System.out.println("Création du compte utilisateur réussie");
+            return "home";
         }
         catch (Exception e) // Exception e : Exception est la classe de base pour toutes les exceptions contrôlées en Java. Capturer Exception signifie qu'on attrape toutes les
         // exceptions qui descendent de cette classe.
         {
-            return ResponseEntity.badRequest().body(e.getMessage()); // e.getMessage() renvoie le message d'erreur associé à l'exception capturée. Ce message est généralement fourni
-                                                                    // par le constructeur de l'exception ou par une surcharge de cette exception
+            System.out.println("Erreurs innatendues: "+(e.getMessage()));
+            return "register";
+
         }
+    }
+
+
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/home")
+    public String home() {
+        return "home";
     }
 
 }

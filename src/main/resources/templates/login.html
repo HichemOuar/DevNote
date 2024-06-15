@@ -36,7 +36,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link btn btn-light text-dark btn-inscription" th:href="@{/vue/users/register}">inscription</a>
+                    <a class="nav-link btn btn-light text-dark btn-inscription" th:href="@{/users/register}">inscription</a>
                 </li>
             </ul>
         </div>
@@ -46,7 +46,7 @@
 <div class="container d-flex text-center">
 
     <h1 class="mb-3">Login</h1>
-    <form th:action="@{/vue/users/login}" id="form" method="POST">
+    <form th:action="@{/users/login}" id="form" method="POST">
         <div class="mb-3">
             <label for="username" class="form-label">Nom d'utilisateur</label>
             <input type="text" id="username" name="username" class="form-control" required > <!--Attention! le name doit correspondre exactement aux attributs du DTO  -->

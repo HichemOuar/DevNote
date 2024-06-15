@@ -43,17 +43,16 @@ public class SecurityConfig  {
         // utilisateurs non authentifiés vers la page de connexion, etc.
         http
                 .authorizeHttpRequests(auth -> auth // Configure quelles URL nécessitent une authentification et lesquelles sont accessibles publiquement.
-                        .requestMatchers("/vue/users/register","/api/users/register","/logout").permitAll()
-                        .requestMatchers("/vue/users/home","vue/questionboard","vue/searchquestion","vue/createquestion").hasAnyAuthority("Admin","Apprenant")
+                        .requestMatchers("/users/register","/logout").permitAll()
                         .requestMatchers("/bootstrap/**", "/css/**", "/js/**", "/fonts/**").permitAll() // Autoriser l'accès aux ressources statiques
                         .anyRequest().authenticated()) // toutes les autres requêtes nécessitent une authentification
                 .formLogin(login -> login
-                        .loginPage("/vue/users/login")
-                        .defaultSuccessUrl("/vue/users/home", true)  // Redirige vers la page home après une connexion réussie
+                        .loginPage("/users/login")
+                        .defaultSuccessUrl("/users/home", true)  // Redirige vers la page home après une connexion réussie
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/vue/users/login")  // Rediriger après la déconnexion
+                        .logoutSuccessUrl("/users/login")  // Rediriger après la déconnexion
                         .deleteCookies("JSESSIONID")  // Supprimer le cookie de session
                         .invalidateHttpSession(true))  // Invalider la session HTTP
                 .csrf(csrf -> csrf
