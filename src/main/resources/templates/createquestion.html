@@ -69,7 +69,11 @@
         </div>
 
         <div class="form-group form-check mb-3">
-            <input type="checkbox" class="form-check-input" id="access" name="access">
+            <input type="checkbox" class="form-check-input" id="access" name="access" value="true"> <!-- Dans les formulaires HTML, si une case à cocher est cochée, le navigateur envoie
+            le nom de l'input et la valeur associée (définie par l'attribut value) dans les données du formulaire lors de la soumission.Si une case à cocher n'est pas cochée, le navigateur
+             n'envoie rien pour cet input. Aucune donnée n'est transmise pour cet élément. En spécifiant la valeur lorsque la case est cochée, on indique au formulaire quand on attend
+             un boolen. Dans lorsque l'on ne coche rien, spring interprete en retour que la valeur et l'inverse de true: false-->
+
             <label class="form-check-label" for="access">rendre la question publique</label>
         </div>
 

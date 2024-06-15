@@ -15,7 +15,7 @@ public class CreateQuestionDTO {
     @Size(max = 65535, message = "L'intitulé de la question est trop long") // 65535 est la taille maximale du champs, qui est de type TEXT en base de données
     private String expectedanswer;
 
-    private boolean isPublic; // Ce champ capture l'état de la checkbox
+    private boolean access; // Ce champ capture l'état de la checkbox
 
 
     // Getters et setters:
@@ -37,18 +37,18 @@ public class CreateQuestionDTO {
         this.expectedanswer = expectedanswer;
     }
 
-    public boolean isPublic() {
-        return isPublic;
+    public boolean access() {
+        return access;
     }
 
-    public void setPublic(boolean isPublic) {
-        this.isPublic = isPublic;
+    public void setAccess(boolean access) {
+        this.access = access;
     }
 
     // Méthode pour obtenir l'Access enum basé sur la checkbox.
     public Access getAccess() {
-        return isPublic ? Access.publique : Access.privé; // ? indique une opération ternaire, qui est un raccourci pour une instruction if-else.:
-        // if isPublic est true, alors l'opération retournera la première valeur après le signe ?. Sinon, elle renverra la deuxième valeur.
+        return access ? Access.publique : Access.privé; // ? indique une opération ternaire, qui est un raccourci pour une instruction if-else.:
+        // if access est true, alors l'opération retournera la première valeur après le signe ?. Sinon, elle renverra la deuxième valeur.
 
     }
 
