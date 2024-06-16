@@ -69,6 +69,9 @@ public class QuestionController
         Users user = usersRepository.getUserByUsername(username);
         List<Question> questions = questionService.getQuestionsForUserAndPublic(user);
         model.addAttribute("questions", questions); // on ajoute la liste des questions au modèle, ce qui les rend accessibles dans la vue searchquestion côté client.
+        model.addAttribute("currentUserId", user.getId()); // On récupère l'ID de l'utilisateur pour afficher les boutons modifier/supprimer uniquement a côté
+                                                                      // des questions qu'il a créées.
+
         return "searchquestion"; // La méthode renvoie le nom de la vue searchquestion
     }
 

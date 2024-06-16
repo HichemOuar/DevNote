@@ -70,6 +70,18 @@ font-weight:bold;
     letter-spacing: 1px; /* Augmente l'espacement entre les caractères */
 }
 
+.container-search-question {
+    display: flex;
+    flex-direction: column; /* Aligner les éléments verticalement */
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 1px; /* Augmente l'espacement entre les caractères */
+    margin-top:5vh;
+    width:80%;
+    margin-left: 10%;
+    margin-right:10%;
+}
+
 
 .containerquestionboard {
     display: flex;
@@ -203,6 +215,30 @@ button {
 }
 
 
+.btn-search-question
+{
+
+    font-family: deathnote1, sans-serif;
+    font-size:22px;
+    line-height: normal; /* S'assure que la hauteur de ligne n'interfère pas avec le padding */
+    background-color:black;
+    width: auto;
+    color:white;
+
+}
+
+
+.btn-supprimer
+{
+
+    font-family: deathnote1, sans-serif;
+    font-size:22px;
+    width:auto; /* Permet au bouton d'ajuster sa hauteur en fonction du contenu et du padding */
+    line-height: normal; /* S'assure que la hauteur de ligne n'interfère pas avec le padding */
+    background-color:red;
+    width: 100px;
+
+}
 
 
 h1 {
@@ -279,6 +315,45 @@ text-decoration:none;
 }
 
 
+.questions {
+
+font-size:20px;
+margin-top:50px;
+text-align:justify;
+text-align-last: center; /* Centre la dernière ligne lorsque le texte ne remplit pas la largeur, car lorsqu'on utilise text-align: justify; pour un texte qui est plus court que son conteneur,
+il s'alignera à gauche par défaut, ce qui peut causer un désalignement par rapport aux éléments parents centrés.*/
+width:100%;
+border: 1px solid black; /* Ajoute une bordure gris clair */
+border-radius: 10px; /* Coins arrondis */
+padding: 20px;
+}
+
+.mt-aftertitle-searchquestion
+
+{
+margin-bottom:-10px;
+
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;  /* Espace entre les boutons */
+    margin-top: 30px;  /* Espace entre la question et les boutons */
+    width:auto;
+    justify-content:center;
+    text-align:center;
+}
+
+.button-group > button, .button-group > div {
+    flex-grow: 0;
+    flex-shrink: 0;
+    white-space: nowrap;  /* Empêche le texte du bouton de passer à la ligne */
+}
+
+
+
+
 /* Media queries */
 
 @media (max-width: 768px)
@@ -341,6 +416,13 @@ text-decoration:none;
     }
 
 }
+
+
+
+
+
+
+
 
 
 
