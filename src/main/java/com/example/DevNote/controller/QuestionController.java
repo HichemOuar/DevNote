@@ -4,6 +4,7 @@ package com.example.DevNote.controller;
 import com.example.DevNote.DTO.CreateQuestionDTO;
 import com.example.DevNote.model.Question;
 import com.example.DevNote.model.Users;
+import com.example.DevNote.repository.QuestionRepository;
 import com.example.DevNote.repository.UsersRepository;
 import com.example.DevNote.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/question") // Définit l'URL de base pour toutes les requêtes gérées par ce contrôleur. Ainsi, toutes les méthodes de ce contrôleur commenceront par /api/users.
@@ -27,6 +29,9 @@ public class QuestionController
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private QuestionRepository questionRepository;
 
 
     @PostMapping("/create")
@@ -74,6 +79,25 @@ public class QuestionController
 
         return "searchquestion"; // La méthode renvoie le nom de la vue searchquestion
     }
+
+
+    @GetMapping("/answer")
+    public String answerQuestion(@RequestParam("questionId") Integer questionId,Model model) { // @RequestParam est utilisée pour extraire la valeur de l'ID de la question
+                                                                                              // à partir du formulaire dans searchquestion.html
+        Optional<Question> question = questionRepository.findById(questionId);
+        if (question.isPresent()) {
+            model.addAttribute("question", question.get()); // question.get() est utilisé pour obtenir la valeur réelle de l'objet Optional<Question>. Optional est une classe en
+            // Java qui sert à encapsuler un type de donnée qui peut être soit null, soit contenir une valeur. question.get() : Cette méthode retourne l'objet Question contenu dans
+            // l'Optional s'il est présent. Si l'Optional est vide (c'est-à-dire qu'il ne contient pas de valeur et représente donc un cas où la question n'a pas été trouvée), alors cette
+            // méthode lancerait une NoSuchElementException si elle est appelée sans vérifier si la valeur est présente. C'est pourquoi elle est généralement précédée par
+            // question.isPresent() pour vérifier si l'objet contient une valeur.
+            return "answerquestion";
+        } else {
+            System.out.println("La question n'a pas été trouvée dans la base de données");
+            return "searchquestion";
+        }
+    }
+
 
 
     @GetMapping("/questionboard")

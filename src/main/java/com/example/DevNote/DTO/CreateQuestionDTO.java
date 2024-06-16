@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 public class CreateQuestionDTO {
 
     @NotBlank(message = "Veuillez renseigner un intitulé de question") // @NotBlank vérifie que la valeur n'est pas nulle et que la taille de la chaîne est supérieure à zéro
-    @Size(max = 255, message = "L'intitulé de la question est trop long") // 255 est la taille maximale du champs, qui est de type VarChar(255) en bdd
+    @Size(max = 65535, message = "L'intitulé de la question est trop long") // 65535 est la taille maximale du champs, qui est de type TEXT en base de données
     private String content;
 
     @NotBlank(message = "Veuillez renseigner la réponse attendue")
