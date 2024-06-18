@@ -59,12 +59,14 @@ public class QuestionService {
 
     }
 
+
     public List<Question> getQuestionsForUserAndPublic(Users user) {
         return questionRepository.findByUserOrAccess(user, Access.publique);
     }
 
 
-    public String callOpenAIApiForValidation(String correctAnswer, String userAnswer, String questionContent) {
+    public String callOpenAIApiForValidation(String correctAnswer, String userAnswer, String questionContent)
+    {
         String apiUrl = "https://api.openai.com/v1/chat/completions"; // URL de l'API OpenAI
 
         HttpHeaders headers = new HttpHeaders(); // Cette ligne crée un objet HttpHeaders pour configurer les en-têtes de la requête HTTP
@@ -113,17 +115,49 @@ public class QuestionService {
         // représente la requête complète à envoyer.
 
         ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, request, String.class); // Ici, la requête HTTP POST est envoyée à apiUrl avec l'objet request.
-        // restTemplate est une instance de RestTemplate, utilisée pour envoyer des requêtes HTTP. Le résultat est stocké dans un objet ResponseEntity qui contiendra la
-        // réponse sous forme de chaîne de caractères.
+        // restTemplate est une instance de RestTemplate, utilisée pour envoyer des requêtes HTTP. Le résultat est stocké dans un objet ResponseEntity qui contiendra lE CORPS de la réponse
+        // sous forme de chaîne de caractères EN PLUS des headers ( donc response n'est pas vraiment une chaîne de caractères, il faut la traiter pour en extraire le corps)
 
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode rootNode = mapper.readTree(response.getBody());
-            JsonNode choicesNode = rootNode.path("choices");
+            ObjectMapper mapper = new ObjectMapper(); // ObjectMapper est une classe de la bibliothèque Jackson, utilisée pour traiter le JSON. Elle peut lire un objet Json, le convertir en
+            // un objets Java (désérialisation) ou convertir des objets Java en chaîne JSON (sérialisation)
+
+            JsonNode rootNode = mapper.readTree(response.getBody()); // response.getBody() renvoie le corps de la réponse sous forme de chaîne de caractères, et mapper.readTree() le
+            // convertit en un nœud racine JsonNode ( qui est un type d'arbre de données qui permet de naviguer et de manipuler les données JSON de manière structurée)
+            // TLDR: Convertit la réponse Json en un arbre de données JsonNode exploitable
+
+            JsonNode choicesNode = rootNode.path("choices"); //  Cette ligne accède à un sous-nœud ( ou branche) spécifique nommé "choices" dans l'arbre JSON rootnode.
+            // la branche choices est la partie de la réponse JSON qui contient le "texte" de la réponse, à savoir correct ou incorrect dans notre cas. Voici un exemple de ce à quoi ressemble
+            // une réponse Json de l'API d'OpenAI pour mieux comprendre:
+
+            // {
+            //  "id": "chatcmpl-123",
+            //  "object": "chat.completion",
+            //  "created": 1625949478,
+            //  "model": "gpt-4",
+            //  "choices": [
+            //    {
+            //      "index": 0,
+            //      "message": {
+            //        "role": "assistant",
+            //        "content": "Correct"
+            //      },
+            //      "finish_reason": "stop"
+            //    }
+            //  ],
+            //  "usage": {
+            //    "prompt_tokens": 5,
+            //    "completion_tokens": 7,
+            //    "total_tokens": 12
+            //  }
+            //}
+
+            // La réponse de l'API d'OpenAI peut contenir plusieurs "choices" lorsqu'on configure la requête pour demander plusieurs complétions de texte.
+
             if (choicesNode.isArray() && choicesNode.size() > 0) {
-                JsonNode firstChoiceNode = choicesNode.get(0);
-                JsonNode messageNode = firstChoiceNode.path("message");
-                return messageNode.path("content").asText();
+                JsonNode firstChoiceNode = choicesNode.get(0); // Prend le premier élément de la liste "choices". Dans notre cas, la réponse ne contient qu'un élément pour choices ( contenu entre[])
+                JsonNode messageNode = firstChoiceNode.path("message"); // Accède à la partie "message" de ce premier élément.
+                return messageNode.path("content").asText(); // Extrait le texte de "content" dans "message" et le renvoie.
             } else {
                 return "No valid response found";
             }
