@@ -230,14 +230,12 @@ button {
 
 .btn-supprimer
 {
-
     font-family: deathnote1, sans-serif;
     font-size:22px;
-    width:auto; /* Permet au bouton d'ajuster sa hauteur en fonction du contenu et du padding */
-    line-height: normal; /* S'assure que la hauteur de ligne n'interfère pas avec le padding */
+    line-height: normal;
     background-color:red;
-    width: 100px;
-
+    width: auto;
+    color:white;
 }
 
 
@@ -392,6 +390,14 @@ margin-bottom:-10px;
 .textarea-intitule {
        min-height: 80px; /* Hauteur minimale basée sur le contenu typique */
        font-family: Arial, sans-serif;
+}
+
+
+.form-inline
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;  /* Espace entre les boutons */
 }
 
 
