@@ -68,6 +68,43 @@ public class QuestionController
 
 
 
+    @GetMapping("/delete")
+    public String deleteQuestion(@RequestParam("questionId") Integer questionId)
+    {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Users user = usersRepository.getUserByUsername(username);
+        Optional<Question> optionnalQuestion = questionRepository.findById(questionId);
+
+        if (optionnalQuestion.isPresent())
+        {
+            Question question = optionnalQuestion.get();
+
+            if (user.getId() == question.getUser().getId())
+            {
+                System.out.println("Suppression de la question réussie");
+                questionRepository.deleteById(questionId);
+            }
+            else
+            {
+                System.out.println("Vous n'êtes pas autorisé à supprimer cette question");
+                return "searchquestion";
+            }
+        }
+        else
+        {
+            System.out.println("La question n'a pas été trouvée dans la base de données");
+        }
+
+        return "searchquestion";
+
+    }
+
+
+
+
+
     @GetMapping("/search")
     public String searchQuestions(Model model) { //  Model est un objet Spring utilisé pour ajouter des attributs qui peuvent être utilisés par la vue.
         // Ici, il est passé en paramètre à la méthode pour permettre l'ajout d'attributs qui seront ensuite accessibles dans le fichier template HTML.
