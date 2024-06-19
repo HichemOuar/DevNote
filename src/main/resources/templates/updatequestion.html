@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Recherche de questions</title>
+    <title>Modifier une question</title>
     <!-- Feuille de style Bootstrap par défaut -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Ma feuille de style personnalisée -->
@@ -55,32 +55,27 @@
 </nav>
 
 
-<div class="container-search-question">
-    <h1 class="mt-aftertitle-searchquestion">Questions disponibles</h1>
-
-    <div class="questions" th:each="question : ${questions}">
-        <div class="question-content">
-            <p th:text="${question.content}"></p>
+<div class="answer-question-form">
+    <form th:action="@{/question/update/submit}" method="post">
+        <div class="form-group mb-3">
+            <label for="content">intitule</label>
+            <textarea class="form-control textarea-intitule" id="content" name="content"> [[${question.content}]]</textarea>
         </div>
-        <div class="button-group">
-            <form th:action="@{/question/answer}" method="GET">
-                <input type="hidden" th:name="questionId" th:value="${question.ID}" />
-                <button type="submit" class="btn btn-search-question">Repondre</button>
-            </form>
-            <button type="button" class="btn btn-search-question">Ajouter A Un Quizz</button>
-
-            <div class="form-inline" th:if="${question.user.id == currentUserId}">
-                <form th:action="@{/question/update}" method="GET">
-                    <input type="hidden" th:name="questionId" th:value="${question.ID}" />
-                    <button type="submit" class="btn btn-search-question">Modifier</button>
-                </form>
-                <form th:action="@{/question/delete}" method="GET">
-                    <input type="hidden" th:name="questionId" th:value="${question.ID}" />
-                    <button type="submit" class="btn btn-supprimer">Supprimer</button>
-                </form>
-            </div>
+        <div class="form-group mb-3">
+            <label for="expectedanswer">reponse attendue</label>
+            <textarea id="expectedanswer" class="form-control answer-question-form-text-area" name="expectedanswer" >[[${question.expectedanswer}]]</textarea>
         </div>
-    </div>
+        <div class="form-group form-check mb-3">
+            <input type="checkbox" class="form-check-input" id="access" name="access" value="true"> <!-- Dans les formulaires HTML, si une case à cocher est cochée, le navigateur envoie
+            le nom de l'input et la valeur associée (définie par l'attribut value) dans les données du formulaire lors de la soumission.Si une case à cocher n'est pas cochée, le navigateur
+             n'envoie rien pour cet input. Aucune donnée n'est transmise pour cet élément. En spécifiant la valeur lorsque la case est cochée, on indique au formulaire quand on attend
+             un boolen. Dans lorsque l'on ne coche rien, spring interprete en retour que la valeur et l'inverse de true: false-->
+
+            <label class="form-check-label" for="access">rendre la question publique</label>
+        </div>
+        <input type="hidden" name="questionId" th:value="${question.ID}" />
+        <button type="submit" class="btn btn-primary btn-creer centered-text">Envoyer</button>
+    </form>
 </div>
 
 

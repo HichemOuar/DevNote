@@ -103,6 +103,45 @@ public class QuestionController
 
 
 
+    @GetMapping("/update") // accès a la vue permettant de répondre à une question donnée
+    public String updateQuestion(@RequestParam("questionId") Integer questionId,Model model) { // @RequestParam est utilisée pour extraire la valeur de l'ID de la question
+        // à partir du formulaire dans searchquestion.html
+        Optional<Question> question = questionRepository.findById(questionId);
+        if (question.isPresent()) {
+            model.addAttribute("question", question.get()); // question.get() est utilisé pour obtenir la valeur réelle de l'objet Optional<Question>. Optional est une classe en
+            // Java qui sert à encapsuler un type de donnée qui peut être soit null, soit contenir une valeur. question.get() : Cette méthode retourne l'objet Question contenu dans
+            // l'Optional s'il est présent. Si l'Optional est vide (c'est-à-dire qu'il ne contient pas de valeur et représente donc un cas où la question n'a pas été trouvée), alors cette
+            // méthode lancerait une NoSuchElementException si elle est appelée sans vérifier si la valeur est présente. C'est pourquoi elle est généralement précédée par
+            // question.isPresent() pour vérifier si l'objet contient une valeur.
+            return "updatequestion";
+        } else {
+            System.out.println("La question n'a pas été trouvée dans la base de données");
+            return "searchquestion";
+        }
+    }
+
+
+    @PostMapping("/update/submit")
+    public String updateQuestionSubmit(@ModelAttribute @Validated CreateQuestionDTO updatedto, @RequestParam("questionId") Integer questionId, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println("Erreurs de validation des entrées: " + bindingResult.getAllErrors());
+            return "questionboard";
+        }
+
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            Users user = usersRepository.getUserByUsername(username);
+            questionService.updateQuestion(questionId, updatedto, user);
+            System.out.println("Mise à jour de la question réussie");
+            return "questionboard";
+        } catch (Exception e) {
+            System.out.println("Erreurs inattendues: " + e.getMessage());
+            return "questionboard";
+        }
+    }
+
+
 
 
     @GetMapping("/search")

@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class QuestionService {
@@ -58,6 +55,26 @@ public class QuestionService {
         return question;
 
     }
+
+    @Transactional
+    public Question updateQuestion(Integer questionId, CreateQuestionDTO dto, Users user) throws Exception {
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+        if (optionalQuestion.isPresent()) {
+            Question question = optionalQuestion.get();
+            if (!question.getUser().getId().equals(user.getId())) {
+                throw new Exception("Vous n'êtes pas autorisé à modifier cette question.");
+            }
+
+            question.setContent(dto.getContent());
+            question.setExpectedanswer(dto.getExpectedanswer());
+            question.setAccess(dto.getAccess());
+            questionRepository.save(question);
+            return question;
+        } else {
+            throw new Exception("Question non trouvée.");
+        }
+    }
+
 
 
     public List<Question> getQuestionsForUserAndPublic(Users user) {
