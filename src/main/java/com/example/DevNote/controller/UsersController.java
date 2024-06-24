@@ -4,10 +4,16 @@ import com.example.DevNote.DTO.UsersRegistrationDTO;
 import com.example.DevNote.security.reCaptcha.CaptchaValidator;
 import com.example.DevNote.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 
@@ -20,8 +26,8 @@ public class UsersController {
     private CaptchaValidator validator;
 
     @PostMapping("/register")  //  Déclare que cette méthode gère les requêtes POST à l'URL /api/users/register
-
-    public String registerUser(@ModelAttribute @Validated UsersRegistrationDTO userdto, BindingResult bindingResult,
+    @ResponseBody
+    public ResponseEntity<?> registerUser(@ModelAttribute @Validated UsersRegistrationDTO userdto, BindingResult bindingResult,
                                           @RequestParam("g-recaptcha-response") String captcha)
 
     // Lorsqu'un formulaire est soumis à un serveur, il envoie les données sous forme de paires clé-valeur. Sans @ModelAttribute, on devrait récupérer chaque valeur
@@ -36,29 +42,26 @@ public class UsersController {
 
 
     {
-        if (bindingResult.hasErrors()) // On vérifie ici s'il y a des erreurs liés aux contraintes de validation du DTO
-        {
-            System.out.println("Erreurs de validation des entrées: "+(bindingResult.getAllErrors()));
-            return "register";
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            return ResponseEntity.badRequest().body(errors);
         }
 
-        if(!validator.isValidCaptcha(captcha)) { // Cette méthode appelle CaptchaValidator pour vérifier si la réponse du captcha est valide.
-            System.out.println("Captcha invalide: "+(bindingResult.getAllErrors()));
-            return "register";
+        if (!validator.isValidCaptcha(captcha)) {
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "Captcha Invalide");
+            return ResponseEntity.badRequest().body(error);
         }
 
-        try  // On ajoute un bloc try catch vérifier s'il n'y a pas d'autre type d'erreurs: Par exemple, pour la disponibilité de username/mail, ça ne se fait pas au niveau du DTO!
-        {
+        try {
             userService.createUser(userdto);
-            System.out.println("Création du compte utilisateur réussie");
-            return "home";
-        }
-        catch (Exception e) // Exception e : Exception est la classe de base pour toutes les exceptions contrôlées en Java. Capturer Exception signifie qu'on attrape toutes les
-        // exceptions qui descendent de cette classe.
-        {
-            System.out.println("Erreurs innatendues: "+(e.getMessage()));
-            return "register";
-
+            Map<String, String> success = new HashMap<>();
+            success.put("message", "User registered successfully");
+            return ResponseEntity.ok().body(success);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "Error: " + e.getMessage());
+            return ResponseEntity.status(500).body(error);
         }
     }
 

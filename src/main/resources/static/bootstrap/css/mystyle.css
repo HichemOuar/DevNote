@@ -123,7 +123,7 @@ font-weight:bold;
 
 .form-inscription {
 
-height:500px;
+    height:auto;
     width: 100%; /* Largeur du formulaire à 100% du conteneur */
     max-width: 330px; /* Largeur maximale pour le formulaire */
     border: 1px solid black; /* Ajoute une bordure gris clair */
@@ -161,6 +161,13 @@ input[type="text"] {
     font-family: Arial, sans-serif; /* Utilise une police classique, car les polices d'écriture customisées que j'ai introduites n'incluent pas le @ pour les emails.*/
 }
 
+
+.validation-error{
+
+    color:red;
+    font-family: Arial, sans-serif;
+
+}
 
 .text-area
 {

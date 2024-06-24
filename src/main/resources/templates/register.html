@@ -48,28 +48,33 @@
 
     <h1 class="mb-3">Inscription</h1>
 
-    <form th:action="@{/users/register}" class="form-inscription" method="POST">
+    <form id="registerForm" th:action="@{/users/register}" class="form-inscription" method="POST" onsubmit="registerUser(event)">
         <div class="mb-3">
             <label for="username" class="form-label">Nom d'utilisateur</label>
             <input type="text" id="username" name="username" class="form-control" required>  <!--Attention! le name doit correspondre exactement aux attributs du DTO  -->
+            <div id="usernameError" class="validation-error mt-3"></div>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">email</label>
             <input type="email" id="email" name="email" class="form-control" required>
+            <div id="emailError" class="validation-error mt-3"></div>
         </div>
         <div class="mb-20">
             <label for="password" class="form-label">Mot de passe</label>
             <input type="password" id="password" name="password" class="form-control" required>
+            <div id="passwordError" class="validation-error mt-3"></div>
         </div>
         <div class="g-recaptcha form-label" th:data-sitekey="${@environment.getProperty('recaptcha.key')}"></div>
         <div>
             <button type="submit" class="btn btn-primary btn-connexion mt-10">S'inscrire</button>
         </div>
+        <div id="errorMessage" class="validation-error mt-3"></div>
     </form>
 </div>
 
 <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/bootstrap/js/responsiveRecaptcha.js"></script>
+<script src="/bootstrap/js/registerForm.js"></script>
 </body>
 
 

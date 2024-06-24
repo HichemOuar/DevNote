@@ -16,7 +16,7 @@ public class UsersRegistrationDTO {
     @Email(message = "Format d'email invalide")
     private String email;
     @NotBlank(message = "Veuillez renseigner un mot de passe")
-    @Size(min = 8, max = 25, message = "Veuillez renseigner un mot de passe")
+    @Size(min = 8, max = 25, message = "Veuillez renseigner un mot de passe entre 8 et 25 caractères")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\\W]).*$", message = "Le mot de passe doit contenir des lettres, des chiffres et des caractères spéciaux")
     private String password;
 
