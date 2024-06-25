@@ -179,6 +179,8 @@ public class QuestionController
     @ResponseBody
     public ResponseEntity<?> submitAnswer(@ModelAttribute @Validated AnswerQuestionDTO answerDTO, @RequestParam("questionId") Integer questionId, BindingResult bindingResult, Model model)
     {
+        Map<String, String> response = new HashMap<>();
+
         if (bindingResult.hasErrors()) // On vérifie ici s'il y a des erreurs liés aux contraintes de validation du DTO
         {
             return ResponseEntity.badRequest().body("Pas de réponse entrée: " + bindingResult.getAllErrors());
@@ -205,31 +207,37 @@ public class QuestionController
 
                 if (validationResponse.equals("correct")) // Si la réponse de l'API est "correct", cela signifie que la réponse de l'utilisateur est correcte
                 {
-                    return ResponseEntity.ok().body("Réponse correcte");
-
+                    response.put("message", "Reponse correcte");
+                    response.put("status", "correct");
+                    return ResponseEntity.ok().body(response);
                 }
                 else if (validationResponse.equals("incorrect"))
                 {
-                    return ResponseEntity.ok().body("Réponse incorrecte");
-
+                    response.put("message", "Reponse incorrecte");
+                    response.put("status", "incorrect");
+                    return ResponseEntity.ok().body(response);
                 }
 
-                return ResponseEntity.status(500).body("ChatGPT a généré une réponse inattendue");
-
+                response.put("message", "ChatGPT a généré une réponse inattendue");
+                response.put("status", "unexpected");
+                return ResponseEntity.ok().body(response);
             }
 
             catch (Exception e) // Exception e : Exception est la classe de base pour toutes les exceptions contrôlées en Java. Capturer Exception signifie qu'on attrape toutes les
             // exceptions qui descendent de cette classe.
             {
-                return ResponseEntity.status(500).body("Erreurs inattendues: " + e.getMessage());
-
+                response.put("message", "Erreurs inattendues: " + e.getMessage());
+                response.put("status", "error");
+                return ResponseEntity.status(500).body(response);
             }
 
         }
 
         else
         {
-            return ResponseEntity.status(404).body("La question n'a pas été trouvée dans la base de données");
+            response.put("message", "La question n'a pas été trouvée dans la base de données");
+            response.put("status", "not_found");
+            return ResponseEntity.status(404).body(response);
 
         }
 
@@ -246,6 +254,11 @@ public class QuestionController
     @GetMapping("/createquestion")
     public String createquestion() {
         return "createquestion";
+    }
+
+    @GetMapping("/resultAnswer")
+    public String resultAnswer() {
+        return "resultAnswer";
     }
 
 }

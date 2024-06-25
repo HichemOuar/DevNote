@@ -56,7 +56,7 @@
 
 
 <div class="answer-question-form">
-    <form th:action="@{/question/answer/submit}" method="post">
+    <form id="answerForm" th:action="@{/question/answer/submit}" method="post">
         <div class="form-group mb-3">
             <label for="questionContent" class="h2-like">Question</label>
             <textarea class="form-control textarea-intitule" id="questionContent" readonly >[[${question.content}]]</textarea>
@@ -73,6 +73,9 @@
 
 
 <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/bootstrap/js/answerQuestion.js"></script>
+
+
 </body>
 
 
