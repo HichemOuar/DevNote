@@ -116,10 +116,13 @@ public class QuestionController
 
     @PostMapping("/update/submit")
     @ResponseBody
-    public ResponseEntity<?> updateQuestionSubmit(@ModelAttribute @Validated CreateQuestionDTO updatedto, @RequestParam("questionId") Integer questionId, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public ResponseEntity<?> updateQuestionSubmit(@ModelAttribute @Validated CreateQuestionDTO updatedto, @RequestParam("questionId") Integer questionId,
+                                                  BindingResult bindingResult) {
 
-            return ResponseEntity.badRequest().body("Erreurs de validation des entrées: " + bindingResult.getAllErrors());
+        Map<String, String> response = new HashMap<>();
+        if (bindingResult.hasErrors()) {
+            response.put("message", "Erreurs de validation des entrées: " + bindingResult.getAllErrors());
+            return ResponseEntity.badRequest().body(response);
         }
 
         try {
@@ -127,12 +130,12 @@ public class QuestionController
             String username = authentication.getName();
             Users user = usersRepository.getUserByUsername(username);
             questionService.updateQuestion(questionId, updatedto, user);
-            return ResponseEntity.ok().body("Mise à jour de la question réussie");
-
+            response.put("message", "Mise à jour de la question réussie");
+            response.put("redirectUrl", "/question/search");
+            return ResponseEntity.ok().body(response);
         } catch (Exception e) {
-
-            return ResponseEntity.status(500).body("Erreurs inattendues: " + e.getMessage());
-
+            response.put("message", "Erreurs inattendues: " + e.getMessage());
+            return ResponseEntity.status(500).body(response);
         }
     }
 
