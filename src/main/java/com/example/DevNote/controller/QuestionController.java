@@ -9,6 +9,7 @@ import com.example.DevNote.repository.QuestionRepository;
 import com.example.DevNote.repository.UsersRepository;
 import com.example.DevNote.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -37,13 +38,13 @@ public class QuestionController
 
 
     @PostMapping("/create")
-    public String createQuestion(@ModelAttribute @Validated CreateQuestionDTO questiondto, BindingResult bindingResult)
+    @ResponseBody
+    public ResponseEntity<?> createQuestion(@ModelAttribute @Validated CreateQuestionDTO questiondto, BindingResult bindingResult)
 
     {
         if (bindingResult.hasErrors()) // On vérifie ici s'il y a des erreurs liés aux contraintes de validation du DTO
         {
-            System.out.println("Erreurs de validation des entrées: "+(bindingResult.getAllErrors()));
-            return "createquestion";
+            return ResponseEntity.badRequest().body("Erreurs de validation des entrées: " + bindingResult.getAllErrors());
             // Si des erreurs de validation sont détectées, retourner une réponse avec ces erreurs
 
         }
@@ -54,53 +55,45 @@ public class QuestionController
             String username = authentication.getName(); // Récupère le nom d'utilisateur de l'utilisateur connecté
             Users user = usersRepository.getUserByUsername(username); // Récupère l'entité utilisateur en utilisant le nom d'utilisateur
             questionService.createQuestion(questiondto,user);
-            System.out.println("Création de la question réussie");
-            return "questionboard";
+            return ResponseEntity.ok().body("Création de la question réussie");
+
         }
         catch (Exception e) // Exception e : Exception est la classe de base pour toutes les exceptions contrôlées en Java. Capturer Exception signifie qu'on attrape toutes les
         // exceptions qui descendent de cette classe.
         {
             System.out.println("Erreurs innatendues: "+(e.getMessage())); // e.getMessage() renvoie le message d'erreur associé à l'exception capturée. Ce message est généralement fourni
             // par le constructeur de l'exception ou par une surcharge de cette exception
-            return "createquestion";
+            return ResponseEntity.status(500).body("Erreurs inattendues: " + e.getMessage());
         }
     }
 
 
 
-    @GetMapping("/delete")
-    public String deleteQuestion(@RequestParam("questionId") Integer questionId)
-    {
-
+    @PostMapping("/delete")
+    @ResponseBody
+    public ResponseEntity<?> deleteQuestion(@RequestParam("questionId") Integer questionId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         Users user = usersRepository.getUserByUsername(username);
-        Optional<Question> optionnalQuestion = questionRepository.findById(questionId);
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 
-        if (optionnalQuestion.isPresent())
-        {
-            Question question = optionnalQuestion.get();
-
-            if (user.getId() == question.getUser().getId())
-            {
-                System.out.println("Suppression de la question réussie");
+        Map<String, String> response = new HashMap<>();
+        if (optionalQuestion.isPresent()) {
+            Question question = optionalQuestion.get();
+            if (user.getId() == question.getUser().getId()) {
                 questionRepository.deleteById(questionId);
+                response.put("message", "Suppression de la question réussie");
+                response.put("redirectUrl", "/question/search");
+                return ResponseEntity.ok().body(response);
+            } else {
+                response.put("message", "Vous n'êtes pas autorisé à supprimer cette question");
+                return ResponseEntity.status(403).body(response);
             }
-            else
-            {
-                System.out.println("Vous n'êtes pas autorisé à supprimer cette question");
-                return "searchquestion";
-            }
+        } else {
+            response.put("message", "La question n'a pas été trouvée dans la base de données");
+            return ResponseEntity.status(404).body(response);
         }
-        else
-        {
-            System.out.println("La question n'a pas été trouvée dans la base de données");
-        }
-
-        return "searchquestion";
-
     }
-
 
 
     @GetMapping("/update") // accès a la vue permettant de répondre à une question donnée
@@ -122,10 +115,11 @@ public class QuestionController
 
 
     @PostMapping("/update/submit")
-    public String updateQuestionSubmit(@ModelAttribute @Validated CreateQuestionDTO updatedto, @RequestParam("questionId") Integer questionId, BindingResult bindingResult) {
+    @ResponseBody
+    public ResponseEntity<?> updateQuestionSubmit(@ModelAttribute @Validated CreateQuestionDTO updatedto, @RequestParam("questionId") Integer questionId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            System.out.println("Erreurs de validation des entrées: " + bindingResult.getAllErrors());
-            return "questionboard";
+
+            return ResponseEntity.badRequest().body("Erreurs de validation des entrées: " + bindingResult.getAllErrors());
         }
 
         try {
@@ -133,11 +127,12 @@ public class QuestionController
             String username = authentication.getName();
             Users user = usersRepository.getUserByUsername(username);
             questionService.updateQuestion(questionId, updatedto, user);
-            System.out.println("Mise à jour de la question réussie");
-            return "questionboard";
+            return ResponseEntity.ok().body("Mise à jour de la question réussie");
+
         } catch (Exception e) {
-            System.out.println("Erreurs inattendues: " + e.getMessage());
-            return "questionboard";
+
+            return ResponseEntity.status(500).body("Erreurs inattendues: " + e.getMessage());
+
         }
     }
 
@@ -178,12 +173,13 @@ public class QuestionController
 
 
     @PostMapping("/answer/submit") // envoie la réponse à une question donnée
-    public String submitAnswer(@ModelAttribute @Validated AnswerQuestionDTO answerDTO, @RequestParam("questionId") Integer questionId, BindingResult bindingResult, Model model)
+    @ResponseBody
+    public ResponseEntity<?> submitAnswer(@ModelAttribute @Validated AnswerQuestionDTO answerDTO, @RequestParam("questionId") Integer questionId, BindingResult bindingResult, Model model)
     {
         if (bindingResult.hasErrors()) // On vérifie ici s'il y a des erreurs liés aux contraintes de validation du DTO
         {
-            System.out.println("Pas de réponse entrée: "+(bindingResult.getAllErrors()));
-            return "searchquestion";
+            return ResponseEntity.badRequest().body("Pas de réponse entrée: " + bindingResult.getAllErrors());
+
 
         }
 
@@ -206,37 +202,32 @@ public class QuestionController
 
                 if (validationResponse.equals("correct")) // Si la réponse de l'API est "correct", cela signifie que la réponse de l'utilisateur est correcte
                 {
-                    System.out.println("Réponse de ChatGPT pour la question: "+questionContent+ " Avec la réponse attendue: "+ correctAnswer + " et la réponse utilisateur: " + userAnswer+
-                            "  :     "+validationResponse);
+                    return ResponseEntity.ok().body("Réponse correcte");
 
-                    return "questionboard";
                 }
                 else if (validationResponse.equals("incorrect"))
                 {
-                    System.out.println("Réponse de ChatGPT pour la question: "+questionContent+ " Avec la réponse attendue: "+ correctAnswer + " et la réponse utilisateur: " + userAnswer+
-                            "  :     "+validationResponse);
+                    return ResponseEntity.ok().body("Réponse incorrecte");
 
-                    return "answerquestionerror";
                 }
 
-                System.out.println("ChatGpt a généré une réponse innatendue");
-                return "unexpected";
+                return ResponseEntity.status(500).body("ChatGPT a généré une réponse inattendue");
+
             }
 
             catch (Exception e) // Exception e : Exception est la classe de base pour toutes les exceptions contrôlées en Java. Capturer Exception signifie qu'on attrape toutes les
             // exceptions qui descendent de cette classe.
             {
-                System.out.println("Erreurs innatendues: "+(e.getMessage())); // e.getMessage() renvoie le message d'erreur associé à l'exception capturée. Ce message est généralement fourni
-                // par le constructeur de l'exception ou par une surcharge de cette exception
-                return "searchquestion";
+                return ResponseEntity.status(500).body("Erreurs inattendues: " + e.getMessage());
+
             }
 
         }
 
         else
         {
-            System.out.println("La question n'a pas été trouvée dans la base de données");
-            return "searchquestion";
+            return ResponseEntity.status(404).body("La question n'a pas été trouvée dans la base de données");
+
         }
 
 
